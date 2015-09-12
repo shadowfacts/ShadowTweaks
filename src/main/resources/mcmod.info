@@ -1,0 +1,16 @@
+[
+	{
+	  "modid": "ShadowTweaks",
+	  "name": "ShadowTweaks",
+	  "description": "My tweaks mod",
+	  "version": "${version}",
+	  "mcversion": "${mcversion}",
+	  "url": "http://github.com/shadowfacts/ShadowTweaks",
+	  "updateUrl": "",
+	  "authorList": ["Shadowfacts"],
+	  "credits": "",
+	  "logoFile": "",
+	  "screenshots": [],
+	  "dependencies": []
+	}
+]
