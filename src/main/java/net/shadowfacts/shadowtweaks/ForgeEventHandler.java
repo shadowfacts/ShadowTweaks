@@ -3,6 +3,7 @@ package net.shadowfacts.shadowtweaks;
 import cpw.mods.fml.client.GuiIngameModOptions;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.block.Block;
+import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemBlock;
@@ -80,6 +81,15 @@ public class ForgeEventHandler {
 				event.gui = new GuiModOptionsList(parent);
 			} catch (ReflectiveOperationException e) {
 				ShadowTweaks.log.error("There was a problem replacing the in-game mod options gui");
+				e.printStackTrace();
+			}
+		} else if (!STConfig.splashMessageOverride.equals("") && event.gui instanceof GuiMainMenu) {
+			try {
+				Field splashText = event.gui.getClass().getDeclaredField("splashText");
+				splashText.setAccessible(true);
+				splashText.set(event.gui, STConfig.splashMessageOverride);
+			} catch (ReflectiveOperationException e) {
+				ShadowTweaks.log.error("There was a problem trying to set the splash screen message");
 				e.printStackTrace();
 			}
 		}

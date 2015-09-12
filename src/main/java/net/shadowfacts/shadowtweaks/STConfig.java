@@ -13,8 +13,9 @@ import net.shadowfacts.shadowmc.config.ConfigProperty;
 @Config(name = "ShadowTweaks")
 public class STConfig {
 
-	public static final String FEATURES = "features";
-	public static final String REDIRECT_MOD_OPTIONS = FEATURES + ".modoptions";
+	private static final String FEATURES = "features";
+	private static final String REDIRECT_MOD_OPTIONS = FEATURES + ".modoptions";
+	private static final String MISC = "miscellaneous";
 
 	@ConfigProperty(comment = "Place the block in the next slot when a tool is right clicked, akin to TiCon behavior", category = FEATURES)
 	public static boolean toolRightClickPlace = true;
@@ -24,6 +25,9 @@ public class STConfig {
 
 	@ConfigProperty(comment = "Only show mods with config GUIs", category = REDIRECT_MOD_OPTIONS)
 	public static boolean onlyConfigurableMods = true;
+
+	@ConfigProperty(comment = "Replace the Vanilla splash screen text\nEmpty string to disable", category = MISC)
+	public static String splashMessageOverride = "";
 
 	public static void init(FMLPreInitializationEvent event) {
 		ConfigManager.instance.configDirPath = event.getModConfigurationDirectory().getAbsolutePath();
