@@ -106,11 +106,6 @@ public class ForgeEventHandler {
 	}
 
 	@SubscribeEvent
-	public void blockPlace(BlockEvent.PlaceEvent event) {
-		System.out.println(event.world.getBlockMetadata(event.x, event.y - 2, event.z));
-	}
-
-	@SubscribeEvent
 	public void guiOpen(GuiOpenEvent event) {
 		if (event.gui instanceof GuiIngameModOptions && STConfig.redirectModOptions) {
 			try {
