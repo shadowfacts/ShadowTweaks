@@ -26,6 +26,7 @@ buildscript {
 
 // Plugins
 apply plugin: "forge"
+apply plugin: "curseforge"
 apply plugin: "maven"
 apply from: "gradle/scripts/dependencies.gradle"
 apply from: "gradle/scripts/artifacts.gradle"

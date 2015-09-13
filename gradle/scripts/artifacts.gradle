@@ -21,3 +21,13 @@ artifacts {
 	archives deobfJar
 	archives sourcesJar
 }
+
+curse {
+	projectId = '236006'
+	apiKey = project.hasProperty('curseForgeApiKey') ? project.curseForgeApiKey : ''
+	releaseType = 'release'
+	addGameVersion '1.7.10'
+
+	additionalArtifact deobfJar
+	additionalArtifact sourcesJar
+}
