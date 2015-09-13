@@ -9,6 +9,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
+import net.minecraft.launchwrapper.Launch;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraftforge.client.event.GuiOpenEvent;
@@ -74,7 +75,7 @@ public class ForgeEventHandler {
 
 	@SubscribeEvent
 	public void guiOpen(GuiOpenEvent event) {
-		if (STConfig.redirectModOptions && event.gui instanceof GuiIngameModOptions) {
+		if (event.gui instanceof GuiIngameModOptions && STConfig.redirectModOptions) {
 			try {
 				Field parentScreen = event.gui.getClass().getDeclaredField("parentScreen");
 				parentScreen.setAccessible(true);
@@ -85,9 +86,10 @@ public class ForgeEventHandler {
 				ShadowTweaks.log.error("There was a problem replacing the in-game mod options gui");
 				e.printStackTrace();
 			}
-		} else if (!Arrays.equals(STConfig.splashMessages, new String[0]) && event.gui instanceof GuiMainMenu) {
+		} else if (event.gui instanceof GuiMainMenu && !Arrays.equals(STConfig.splashMessages, new String[0])) {
 			try {
-				Field splashText = event.gui.getClass().getDeclaredField("splashText");
+				Boolean deobfuscated = (Boolean)Launch.blackboard.get("fml.deobfuscatedEnvironment");
+				Field splashText = event.gui.getClass().getDeclaredField(deobfuscated ? "splashText" : "field_73975_c");
 				splashText.setAccessible(true);
 
 				int num = ThreadLocalRandom.current().nextInt(0, STConfig.splashMessages.length);
