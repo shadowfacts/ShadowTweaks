@@ -26,7 +26,8 @@ public class STConfigGui extends GuiConfig {
 	private static List<IConfigElement> getConfigElements() {
 		List<IConfigElement> list = new ArrayList<>();
 
-		list.add(getCategory("features", StringHelper.localize("shadowtweaks.config.ctgy.features"), "shadowtweaks.config.ctgy.features"));
+		list.add(getCategory("features", StringHelper.localize("shadowtweaks.config.ctgy.features"), ""));
+		list.add(getCategory("miscellaneous", StringHelper.localize("shadowtweaks.config.ctgy.misc"), ""));
 
 		return list;
 	}
