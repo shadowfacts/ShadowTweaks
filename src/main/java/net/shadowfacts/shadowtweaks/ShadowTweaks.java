@@ -36,7 +36,6 @@ public class ShadowTweaks {
 
 		MinecraftForge.EVENT_BUS.register(new ForgeEventHandler());
 		FMLCommonHandler.instance().bus().register(new FMLEventHandler());
-
 	}
 
 	@Mod.EventHandler
