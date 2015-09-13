@@ -40,67 +40,72 @@ public class ForgeEventHandler {
 				event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK) {
 			ItemStack heldStack = event.entityPlayer.getHeldItem();
 			if (heldStack != null && heldStack.getItem() instanceof ItemTool) {
-				boolean result = false;
+				Block hitBlock = event.world.getBlock(event.x, event.y, event.z);
+				MovingObjectPosition mop = event.entityPlayer.rayTrace(16, 0);
+				boolean blockActivated = hitBlock.onBlockActivated(event.world, event.x, event.y, event.z, event.entityPlayer, event.face, (float)mop.hitVec.xCoord, (float)mop.hitVec.yCoord, (float)mop.hitVec.zCoord);
+				if (!blockActivated || event.entityPlayer.isSneaking()) {
+					boolean result = false;
 
-				int hotbarSlot = event.entityPlayer.inventory.currentItem;
-				int toPlaceSlot = hotbarSlot == 0 ? 8 : hotbarSlot + 1;
-				ItemStack toPlaceStack = null;
+					int hotbarSlot = event.entityPlayer.inventory.currentItem;
+					int toPlaceSlot = hotbarSlot == 0 ? 8 : hotbarSlot + 1;
+					ItemStack toPlaceStack = null;
 
-				if (hotbarSlot < 8) {
-					toPlaceStack = event.entityPlayer.inventory.getStackInSlot(toPlaceSlot);
-					if (toPlaceStack != null) {
-						Item item = toPlaceStack.getItem();
-						if (item instanceof ItemBlock) {
-							int x = event.x;
-							int y = event.y;
-							int z = event.z;
-							switch (event.face) {
-								case 0:
-									--y;
-									break;
-								case 1:
-									++y;
-									break;
-								case 2:
-									--z;
-									break;
-								case 3:
-									++z;
-									break;
-								case 4:
-									--x;
-									break;
-								case 5:
-									++x;
-									break;
-							}
+					if (hotbarSlot < 8) {
+						toPlaceStack = event.entityPlayer.inventory.getStackInSlot(toPlaceSlot);
+						if (toPlaceStack != null) {
+							Item item = toPlaceStack.getItem();
+							if (item instanceof ItemBlock) {
+								int x = event.x;
+								int y = event.y;
+								int z = event.z;
+								switch (event.face) {
+									case 0:
+										--y;
+										break;
+									case 1:
+										++y;
+										break;
+									case 2:
+										--z;
+										break;
+									case 3:
+										++z;
+										break;
+									case 4:
+										--x;
+										break;
+									case 5:
+										++x;
+										break;
+								}
 
-							AxisAlignedBB blockBounds = AxisAlignedBB.getBoundingBox(x, y, z, x + 1, y + 1, z + 1);
-							AxisAlignedBB playerBounds = event.entityPlayer.boundingBox;
+								AxisAlignedBB blockBounds = AxisAlignedBB.getBoundingBox(x, y, z, x + 1, y + 1, z + 1);
+								AxisAlignedBB playerBounds = event.entityPlayer.boundingBox;
 
-							Block blockToPlace = ((ItemBlock) item).field_150939_a;
+								Block blockToPlace = ((ItemBlock) item).field_150939_a;
 
-							if (blockToPlace.getMaterial().blocksMovement() && playerBounds.intersectsWith(blockBounds))
-								return;
+								if (blockToPlace.getMaterial().blocksMovement() && playerBounds.intersectsWith(blockBounds))
+									return;
 
-							int damage = toPlaceStack.getItemDamage();
-							int count = toPlaceStack.stackSize;
+								int damage = toPlaceStack.getItemDamage();
+								int count = toPlaceStack.stackSize;
 
-							MovingObjectPosition mop = event.entityPlayer.rayTrace(16, 0);
-							result = item.onItemUse(toPlaceStack, event.entityPlayer, event.world, event.x, event.y, event.z, event.face, (float)mop.hitVec.xCoord, (float)mop.hitVec.yCoord, (float)mop.hitVec.zCoord);
 
-							if (event.entityPlayer.capabilities.isCreativeMode) {
-								toPlaceStack.setItemDamage(damage);
-								toPlaceStack.stackSize = count;
-							}
-							if (toPlaceStack.stackSize <= 0) {
-								event.entityPlayer.inventory.setInventorySlotContents(toPlaceSlot, null);
+								result = item.onItemUse(toPlaceStack, event.entityPlayer, event.world, event.x, event.y, event.z, event.face, (float) mop.hitVec.xCoord, (float) mop.hitVec.yCoord, (float) mop.hitVec.zCoord);
+
+								if (event.entityPlayer.capabilities.isCreativeMode) {
+									toPlaceStack.setItemDamage(damage);
+									toPlaceStack.stackSize = count;
+								}
+								if (toPlaceStack.stackSize <= 0) {
+									event.entityPlayer.inventory.setInventorySlotContents(toPlaceSlot, null);
+								}
 							}
 						}
 					}
-				}
 
-				if (result) event.entityPlayer.swingItem();
+					if (result) event.entityPlayer.swingItem();
+				}
 			}
 		}
 	}
