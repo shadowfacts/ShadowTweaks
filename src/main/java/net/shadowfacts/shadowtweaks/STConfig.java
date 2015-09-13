@@ -26,10 +26,11 @@ public class STConfig {
 	@ConfigProperty(comment = "Only show mods with config GUIs", category = REDIRECT_MOD_OPTIONS)
 	public static boolean onlyConfigurableMods = true;
 
-	@ConfigProperty(comment = "Replace the Vanilla splash screen text\nEmpty string to disable", category = MISC)
-	public static String splashMessageOverride = "";
+	@ConfigProperty(comment = "Override the Vanilla splash screen message with a random one of these", category = MISC)
+	public static String[] splashMessages = new String[0];
 
 	public static void init(FMLPreInitializationEvent event) {
+		ShadowTweaks.log.info("Loading config");
 		ConfigManager.instance.configDirPath = event.getModConfigurationDirectory().getAbsolutePath();
 		ConfigManager.instance.register(ShadowTweaks.modId, STConfig.class);
 		ConfigManager.instance.load(ShadowTweaks.modId);

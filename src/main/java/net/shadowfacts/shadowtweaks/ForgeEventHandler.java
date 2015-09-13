@@ -17,6 +17,8 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.shadowfacts.shadowtweaks.client.gui.GuiModOptionsList;
 
 import java.lang.reflect.Field;
+import java.util.Arrays;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Event handler for MinecraftForge events
@@ -83,11 +85,13 @@ public class ForgeEventHandler {
 				ShadowTweaks.log.error("There was a problem replacing the in-game mod options gui");
 				e.printStackTrace();
 			}
-		} else if (!STConfig.splashMessageOverride.equals("") && event.gui instanceof GuiMainMenu) {
+		} else if (!Arrays.equals(STConfig.splashMessages, new String[0]) && event.gui instanceof GuiMainMenu) {
 			try {
 				Field splashText = event.gui.getClass().getDeclaredField("splashText");
 				splashText.setAccessible(true);
-				splashText.set(event.gui, STConfig.splashMessageOverride);
+
+				int num = ThreadLocalRandom.current().nextInt(0, STConfig.splashMessages.length);
+				splashText.set(event.gui, STConfig.splashMessages[num]);
 			} catch (ReflectiveOperationException e) {
 				ShadowTweaks.log.error("There was a problem trying to set the splash screen message");
 				e.printStackTrace();
