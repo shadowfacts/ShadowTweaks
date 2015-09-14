@@ -4,16 +4,28 @@ jar {
 			exclude 'META-INF', 'META-INF/**'
 		}
 	}
+	manifest {
+		attributes	'FMLCorePlugin': 'net.shadowfacts.shadowtweaks.core.STPlugin',
+					'FMLCorePluginContainsFMLMod': 'true'
+	}
 }
 
 task deobfJar(type: Jar, dependsOn: classes) {
 	from sourceSets.main.output
 	classifier = 'deobf'
+	manifest {
+		attributes	'FMLCorePlugin': 'net.shadowfacts.shadowtweaks.core.STPlugin',
+					'FMLCorePluginContainsFMLMod': 'true'
+	}
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
 	from sourceSets.main.allSource
 	classifier = 'sources'
+	manifest {
+		attributes	'FMLCorePlugin': 'net.shadowfacts.shadowtweaks.core.STPlugin',
+					'FMLCorePluginContainsFMLMod': 'true'
+	}
 }
 
 artifacts {
