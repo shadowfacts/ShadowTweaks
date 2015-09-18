@@ -4,7 +4,7 @@ I was bored and decided to make a tweaks mod. Yes, I know, it's like the 5 milli
 ## Tweaks
 - When a tool is right-clicked, it will place the block in the hotbar slot next to it (if there is one).
 - Fix the Mod Options button in the in-game menu.
-- Override the Vanilla splash screen text
+- Override the Vanilla splash screen text ([config](http://puu.sh/k9htc.png) and [example](http://puu.sh/kg2Xt.png))
 
 
 ## Shadowfacts' License
