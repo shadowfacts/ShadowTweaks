@@ -29,6 +29,9 @@ public class STConfig {
 	@ConfigProperty(comment = "Override the Vanilla splash screen message with a random one of these", category = MISC)
 	public static String[] splashMessages = new String[0];
 
+	@ConfigProperty(comment = "Allow the player to sleep anytime if it's raining. WARNING: VERY BROKEN, do not enable", category = DEV)
+	public static boolean sleepWhenRaining = false;
+
 	public static void init(FMLPreInitializationEvent event) {
 		ShadowTweaks.log.info("Loading config");
 		ConfigManager.instance.configDirPath = event.getModConfigurationDirectory().getAbsolutePath();

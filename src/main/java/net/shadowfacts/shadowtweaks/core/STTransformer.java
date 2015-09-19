@@ -18,9 +18,9 @@ import java.util.List;
  */
 public class STTransformer implements IClassTransformer {
 
-	private static final List<String> classes = Arrays.asList("net.minecraft.item.ItemTool");
+	private static final List<String> classes = Arrays.asList("net.minecraft.item.ItemTool", "net.minecraft.entity.player.EntityPlayer");
 
-	private static final Logger log = LogManager.getLogger("STTransformer");
+	static final Logger log = LogManager.getLogger("STTransformer");
 
 	@Override
 	public byte[] transform(String name, String transformedName, byte[] bytes) {
@@ -40,6 +40,9 @@ public class STTransformer implements IClassTransformer {
 				case 0:
 					transformItemTool(classNode, obfuscated);
 					break;
+				case 1:
+					SleepTweak.transformEntityPlayer(classNode, obfuscated);
+					break;
 			}
 
 			ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES);
@@ -57,7 +60,7 @@ public class STTransformer implements IClassTransformer {
 	}
 
 	private static void transformItemTool(ClassNode classNode, boolean obfuscated) {
-		log.info("Transforming class: ItemTool");
+		log.info("Transforming net.minecraft.item.ItemTool");
 		final String ON_ITEM_USE = obfuscated ? "func_77648_a" : "onItemUse";
 		Type intType = Type.getType(int.class);
 		Type floatType = Type.getType(float.class);
