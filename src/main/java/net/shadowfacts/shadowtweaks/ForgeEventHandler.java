@@ -1,11 +1,13 @@
 package net.shadowfacts.shadowtweaks;
 
 import cpw.mods.fml.client.GuiIngameModOptions;
+import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.launchwrapper.Launch;
 import net.minecraftforge.client.event.GuiOpenEvent;
+import net.minecraftforge.event.entity.EntityEvent;
 import net.shadowfacts.shadowtweaks.client.gui.GuiModOptionsList;
 
 import java.lang.reflect.Field;
@@ -43,6 +45,18 @@ public class ForgeEventHandler {
 			} catch (ReflectiveOperationException e) {
 				ShadowTweaks.log.error("There was a problem trying to set the splash screen message");
 				e.printStackTrace();
+			}
+		}
+	}
+
+	@SubscribeEvent(priority = EventPriority.HIGHEST)
+	public void checkSpawn(EntityEvent.EntityConstructing event) {
+		String className = event.entity.getClass().getCanonicalName();
+		if (className != null) {
+			for (String s : STConfig.removeEntities) {
+				if (s.equals(className)) {
+					event.entity.setDead();
+				}
 			}
 		}
 	}

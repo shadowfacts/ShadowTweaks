@@ -16,6 +16,7 @@ public class STConfig {
 	private static final String FEATURES = "features";
 	private static final String REDIRECT_MOD_OPTIONS = FEATURES + ".modoptions";
 	private static final String MISC = "miscellaneous";
+	private static final String DEV = "indev";
 
 	@ConfigProperty(comment = "Place the block in the next slot when a tool is right clicked, akin to TiCon behavior", category = FEATURES)
 	public static boolean toolRightClickPlace = true;
@@ -31,6 +32,9 @@ public class STConfig {
 
 	@ConfigProperty(comment = "Allow the player to sleep anytime if it's raining. WARNING: VERY BROKEN, do not enable", category = DEV)
 	public static boolean sleepWhenRaining = false;
+
+	@ConfigProperty(comment = "Remove entities with these names when they attempt to spawn.\nWARNING: This can be EXTREMELY dangerous.\nDO NOT USE THIS UNLESS YOUR ARE 100% SURE YOU KNOW WHAT YOU'RE DOING.\n", category = MISC)
+	public static String[] removeEntities = new String[0];
 
 	public static void init(FMLPreInitializationEvent event) {
 		ShadowTweaks.log.info("Loading config");
