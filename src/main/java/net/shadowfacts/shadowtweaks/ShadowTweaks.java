@@ -8,6 +8,7 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.shadowfacts.shadowtweaks.proxy.CommonProxy;
+import net.shadowfacts.shadowtweaks.recipe.STRecipes;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -36,6 +37,8 @@ public class ShadowTweaks {
 
 		MinecraftForge.EVENT_BUS.register(new ForgeEventHandler());
 		FMLCommonHandler.instance().bus().register(new FMLEventHandler());
+
+		STRecipes.addRecipes();
 	}
 
 	@Mod.EventHandler

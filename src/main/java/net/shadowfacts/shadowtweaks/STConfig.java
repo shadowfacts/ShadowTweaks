@@ -22,7 +22,10 @@ public class STConfig {
 	@ConfigProperty(comment = "Place the block in the next slot when a tool is right clicked, akin to TiCon behavior", category = FEATURES)
 	public static boolean toolRightClickPlace = true;
 
-//	Mod optiosn GUI
+	@ConfigProperty(comment = "Add a recipe for 8 logs (in chest shape) for 4 chests", category = FEATURES)
+	public static boolean addLogChestRecipe = true;
+
+//	Mod options GUI
 	@ConfigProperty(name = "enable", comment = "Enable this feature", category = REDIRECT_MOD_OPTIONS)
 	public static boolean redirectModOptions = true;
 
@@ -44,7 +47,7 @@ public class STConfig {
 	public static boolean sleepWhenRaining = false;
 
 
-	
+
 	public static void init(FMLPreInitializationEvent event) {
 		ShadowTweaks.log.info("Loading config");
 		ConfigManager.instance.configDirPath = event.getModConfigurationDirectory().getAbsolutePath();
