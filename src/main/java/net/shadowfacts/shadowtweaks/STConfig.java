@@ -4,9 +4,11 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
+import net.minecraftforge.common.config.Configuration;
 import net.shadowfacts.shadowmc.config.Config;
 import net.shadowfacts.shadowmc.config.ConfigManager;
 import net.shadowfacts.shadowmc.config.ConfigProperty;
+import net.shadowfacts.shadowtweaks.features.screenshot.services.ServiceManager;
 
 import java.io.File;
 
@@ -18,11 +20,11 @@ import java.io.File;
 @Config(name = "ShadowTweaks")
 public class STConfig {
 
-	private static final String FEATURES = "features";
-	private static final String REDIRECT_MOD_OPTIONS = FEATURES + ".modoptions";
-	private static final String SCREENSHOT = FEATURES + ".screenshot";
-	private static final String MISC = "miscellaneous";
-	private static final String DEV = "indev";
+	public static final String FEATURES = "features";
+	public static final String REDIRECT_MOD_OPTIONS = FEATURES + ".modoptions";
+	public static final String SCREENSHOT = FEATURES + ".screenshot";
+	public static final String MISC = "miscellaneous";
+	public static final String DEV = "indev";
 
 //	FEATURES
 	@ConfigProperty(comment = "Place the block in the next slot when a tool is right clicked, akin to TiCon behavior", category = FEATURES)
@@ -42,6 +44,9 @@ public class STConfig {
 	@ConfigProperty(comment = "Change the Minecraft screenshot directory.\nLeave empty for MC default", category = SCREENSHOT)
 	public static String screenshotDir = "";
 
+	@ConfigProperty(comment = "The service to use for screenshots", category = SCREENSHOT)
+	public static String screenshotService = "";
+
 //	MISC
 	@ConfigProperty(comment = "Override the Vanilla splash screen message with a random one of these", category = MISC)
 	public static String[] splashMessages = new String[0];
@@ -57,12 +62,14 @@ public class STConfig {
 	public static boolean sleepWhenRaining = false;
 
 
-
 	public static void init(FMLPreInitializationEvent event) {
 		ShadowTweaks.log.info("Loading config");
 		ConfigManager.instance.configDirPath = event.getModConfigurationDirectory().getAbsolutePath();
 		ConfigManager.instance.register(ShadowTweaks.modId, STConfig.class);
 		ConfigManager.instance.load(ShadowTweaks.modId);
+
+		Configuration config = ConfigManager.instance.getConfigurationObject(ShadowTweaks.modId);
+		ServiceManager.loadConfiguration(config);
 	}
 
 }

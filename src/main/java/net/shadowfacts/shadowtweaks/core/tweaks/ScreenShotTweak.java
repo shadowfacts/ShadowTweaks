@@ -1,7 +1,7 @@
 package net.shadowfacts.shadowtweaks.core.tweaks;
 
 import net.shadowfacts.shadowtweaks.core.STPlugin;
-import net.shadowfacts.shadowtweaks.misc.ScreenShotHelper;
+import net.shadowfacts.shadowtweaks.features.screenshot.ScreenShotHelper;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.*;

@@ -1,4 +1,4 @@
-package net.shadowfacts.shadowtweaks.misc;
+package net.shadowfacts.shadowtweaks.features.screenshot;
 
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.texture.TextureUtil;
@@ -9,6 +9,8 @@ import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.IChatComponent;
 import net.shadowfacts.shadowtweaks.STConfig;
 import net.shadowfacts.shadowtweaks.ShadowTweaks;
+import net.shadowfacts.shadowtweaks.features.screenshot.services.Service;
+import net.shadowfacts.shadowtweaks.features.screenshot.services.ServiceManager;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
@@ -27,7 +29,7 @@ import java.util.Date;
  */
 public class ScreenShotHelper {
 
-	private static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss");
+	public static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss");
 
 	private static IntBuffer buffer; // the pixel buffer
 	private static int[] values; // the raw pixel values
@@ -91,6 +93,8 @@ public class ScreenShotHelper {
 		try {
 			ImageIO.write(bufferedImage, "png", screenshot);
 
+			applyService(screenshot);
+
 			ChatComponentText file = new ChatComponentText(screenshot.getName());
 			file.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, screenshot.getAbsolutePath()));
 			file.getChatStyle().setUnderlined(true);
@@ -103,6 +107,11 @@ public class ScreenShotHelper {
 			return new ChatComponentTranslation("screenshot.failure", e.getMessage());
 
 		}
+	}
+
+	private static void applyService(File screenshot) {
+		Service s = ServiceManager.getActiveService();
+		if (s != null) s.accept(screenshot);
 	}
 
 	private static File getTimestampedPNGFileForDirectory(File dir) {

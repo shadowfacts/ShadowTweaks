@@ -1,3 +1,7 @@
 # Config
 shadowtweaks.config.ctgy.features=Features
 shadowtweaks.config.ctgy.misc=Miscellaneous
+
+# Chat messages
+shadowtweaks.service.imgur.success=Uploaded screenshot to Imgur at %s
+shadowtweaks.service.imgur.failure=Couldn't upload screenshot to Imgur

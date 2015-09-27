@@ -17,6 +17,8 @@ configurations {
 
 dependencies {
 	shade group: "net.shadowfacts", name: "ShadowMC", version: "${config.mc_version}-${config.shadowmc_version}", classifier: "deobf"
+	shade group: "com.squareup.retrofit", name: "retrofit", version: "1.9.0"
+	shade group: "org.projectlombok", name: "lombok", version: "1.16.6"
 
 	compile group: "codechicken", name: "CodeChickenLib", version: "${config.mc_version}-${config.ccl_version}", classifier: "dev"
 	compile group: "codechicken", name: "CodeChickenCore", version: "${config.mc_version}-${config.ccc_version}", classifier: "dev"
