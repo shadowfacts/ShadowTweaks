@@ -27,6 +27,7 @@ public class GuiModOptionsList extends GuiModList {
 			try {
 				Field modsField = GuiModList.class.getDeclaredField("mods");
 				modsField.setAccessible(true);
+				@SuppressWarnings("unchecked")
 				ArrayList<ModContainer> mods = (ArrayList<ModContainer>)modsField.get(this);
 
 				List<ModContainer> toRemove = new ArrayList<>();
