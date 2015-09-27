@@ -20,7 +20,6 @@ import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.io.File;
-import java.lang.reflect.Field;
 import java.util.Date;
 
 /**
