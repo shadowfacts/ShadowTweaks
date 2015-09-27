@@ -5,6 +5,7 @@ import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.command.server.CommandSummon;
 import net.minecraft.entity.EntityList;
 import net.minecraft.launchwrapper.Launch;
 import net.minecraftforge.client.event.GuiOpenEvent;
@@ -65,7 +66,7 @@ public class ForgeEventHandler {
 
 	@SubscribeEvent
 	public void onCommand(CommandEvent event) {
-		if (STConfig.printEntityClass) {
+		if (STConfig.printEntityClass && event.command instanceof CommandSummon) {
 			if (event.parameters[0] != null) {
 				Class clazz = (Class)EntityList.stringToClassMapping.get(event.parameters[0]);
 				if (clazz != null) {
