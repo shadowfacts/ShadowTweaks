@@ -1,9 +1,14 @@
 package net.shadowfacts.shadowtweaks;
 
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.Minecraft;
 import net.shadowfacts.shadowmc.config.Config;
 import net.shadowfacts.shadowmc.config.ConfigManager;
 import net.shadowfacts.shadowmc.config.ConfigProperty;
+
+import java.io.File;
 
 /**
  * Configuration class
@@ -15,6 +20,7 @@ public class STConfig {
 
 	private static final String FEATURES = "features";
 	private static final String REDIRECT_MOD_OPTIONS = FEATURES + ".modoptions";
+	private static final String SCREENSHOT = FEATURES + ".screenshot";
 	private static final String MISC = "miscellaneous";
 	private static final String DEV = "indev";
 
@@ -25,12 +31,16 @@ public class STConfig {
 	@ConfigProperty(comment = "Add a recipe for 8 logs (in chest shape) for 4 chests", category = FEATURES)
 	public static boolean addLogChestRecipe = true;
 
-//	Mod options GUI
+//	FEATURE: Mod options GUI
 	@ConfigProperty(name = "enable", comment = "Enable this feature", category = REDIRECT_MOD_OPTIONS)
 	public static boolean redirectModOptions = true;
 
 	@ConfigProperty(comment = "Only show mods with config GUIs", category = REDIRECT_MOD_OPTIONS)
 	public static boolean onlyConfigurableMods = true;
+
+//	FEATURE: ScreenShot
+	@ConfigProperty(comment = "Change the Minecraft screenshot directory.\nLeave empty for MC default", category = SCREENSHOT)
+	public static String screenshotDir = "";
 
 //	MISC
 	@ConfigProperty(comment = "Override the Vanilla splash screen message with a random one of these", category = MISC)

@@ -21,7 +21,7 @@ public class MiscHandlers {
 	public static boolean onToolUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
 		boolean used = false;
 
-		if  (STConfig.toolRightClickPlace) {
+		if (STConfig.toolRightClickPlace) {
 			int hotbarSlot = player.inventory.currentItem;
 			int itemSlot = hotbarSlot >= 8 ? 0 : hotbarSlot + 1;
 

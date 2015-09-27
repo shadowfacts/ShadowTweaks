@@ -1,9 +1,11 @@
-package net.shadowfacts.shadowtweaks.core;
+package net.shadowfacts.shadowtweaks.core.tweaks;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldProvider;
 import net.shadowfacts.shadowtweaks.STConfig;
+import net.shadowfacts.shadowtweaks.core.STPlugin;
+import net.shadowfacts.shadowtweaks.core.STTransformer;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
@@ -29,9 +31,9 @@ public class SleepTweak {
 	private static String SLEEP_TIMER;
 	private static String SET_RAIN_STRENGTH;
 
-	static void transformEntityPlayer(ClassNode classNode, boolean obfuscated) {
+	public static void transformEntityPlayer(ClassNode classNode, boolean obfuscated) {
 		if (STConfig.sleepWhenRaining) {
-			STTransformer.log.info("Transforming net.minecraft.entity.player.EntityPlayer");
+			STPlugin.log.info("Transforming net.minecraft.entity.player.EntityPlayer");
 			SLEEP_IN_BED_AT = obfuscated ? "" : "sleepInBedAt";
 			WORLD_OBJ = obfuscated ? "" : "worldObj";
 			PROVIDER = obfuscated ? "" : "provider";
@@ -48,7 +50,7 @@ public class SleepTweak {
 			if (optional.isPresent()) {
 				transformSleepInBedAt(classNode, optional.get());
 			} else {
-				STTransformer.log.error("The method sleepInBedAt could not be found in EntityPlayer");
+				STPlugin.log.error("The method sleepInBedAt could not be found in EntityPlayer");
 			}
 
 //		onUpdate
@@ -56,10 +58,10 @@ public class SleepTweak {
 			if (optionalOnUpdate.isPresent()) {
 				transformOnUpdate(classNode, optionalOnUpdate.get());
 			} else {
-				STTransformer.log.error("The method onUpdate could not be found in EntityPlayer");
+				STPlugin.log.error("The method onUpdate could not be found in EntityPlayer");
 			}
 
-			STTransformer.log.info("Finished transforming EntityPlayer");
+			STPlugin.log.info("Finished transforming EntityPlayer");
 		}
 	}
 
@@ -112,7 +114,7 @@ public class SleepTweak {
 			method.instructions.insertBefore(target, toInsert);
 
 		} else {
-			STTransformer.log.error("Could not find the target node in EntityPlayer.sleepInBedAt");
+			STPlugin.log.error("Could not find the target node in EntityPlayer.sleepInBedAt");
 		}
 
 	}
