@@ -1,10 +1,9 @@
 package net.shadowfacts.shadowtweaks.core.tweaks;
 
-import jdk.internal.org.objectweb.asm.Type;
-import net.shadowfacts.shadowtweaks.MiscHandlers;
 import net.shadowfacts.shadowtweaks.core.STPlugin;
 import net.shadowfacts.shadowtweaks.misc.ScreenShotHelper;
 import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.*;
 
 import java.util.Optional;
