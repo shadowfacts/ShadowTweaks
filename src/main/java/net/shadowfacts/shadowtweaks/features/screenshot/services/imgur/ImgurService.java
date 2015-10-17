@@ -50,7 +50,7 @@ public class ImgurService implements Service {
 		((Runnable) () -> {
 			RestAdapter restAdapter = new RestAdapter.Builder().setEndpoint(ImgurAPI.server).build();
 
-			restAdapter.create(ImgurAPI.class).postImage(
+			restAdapter.create(ImgurAPI.class).uploadImage(
 					"Client-ID " + clientId,
 					String.format("Minecraft %s screenshot from %s", MinecraftForge.MC_VERSION, ScreenShotHelper.dateFormat.format(new Date())),
 					new TypedFile("image/png", screenshot),

@@ -15,7 +15,7 @@ public interface ImgurAPI {
 	String server = "https://api.imgur.com";
 
 	@POST("/3/image")
-	void postImage(
+	void uploadImage(
 			@Header("Authorization") String auth,
 			@Query("title") String title,
 			@Body TypedFile file,
