@@ -23,6 +23,7 @@ public class STConfig {
 	public static final String FEATURES = "features";
 	public static final String REDIRECT_MOD_OPTIONS = FEATURES + ".modoptions";
 	public static final String SCREENSHOT = FEATURES + ".screenshot";
+	public static final String BEDROCK = FEATURES + ".flatbedrock";
 	public static final String MISC = "miscellaneous";
 	public static final String DEV = "indev";
 
@@ -40,12 +41,16 @@ public class STConfig {
 	@ConfigProperty(comment = "Only show mods with config GUIs", category = REDIRECT_MOD_OPTIONS)
 	public static boolean onlyConfigurableMods = true;
 
-//	FEATURE: ScreenShot
+//	FEATURE: Screenshot
 	@ConfigProperty(comment = "Change the Minecraft screenshot directory.\nLeave empty for MC default", category = SCREENSHOT)
 	public static String screenshotDir = "";
 
 	@ConfigProperty(comment = "The service to use for screenshots", category = SCREENSHOT)
 	public static String screenshotService = "";
+
+//	FEATURE: Flat bedrock
+	@ConfigProperty(comment = "Generate flat bedrock in the world", category = BEDROCK)
+	public static boolean flatBedrock = false;
 
 //	MISC
 	@ConfigProperty(comment = "Override the Vanilla splash screen message with a random one of these", category = MISC)
@@ -58,7 +63,7 @@ public class STConfig {
 	public static boolean printEntityClass = false;
 
 //	DEV
-	@ConfigProperty(comment = "Allow the player to sleep anytime if it's raining. WARNING: VERY BROKEN, do not enable", category = DEV)
+	@ConfigProperty(comment = "Allow the player to sleep anytime if it's raining.\nWARNING: VERY BROKEN, do not enable", category = DEV)
 	public static boolean sleepWhenRaining = false;
 
 

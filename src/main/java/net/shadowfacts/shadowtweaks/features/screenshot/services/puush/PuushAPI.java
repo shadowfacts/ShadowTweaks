@@ -13,8 +13,7 @@ public interface PuushAPI {
 	@POST("/api/up")
 	void uploadImage(
 			@Query("k") String key,
-			@Query("z") String clientId,
-			@
+			@Query("z") String clientId
 	);
 
 }
