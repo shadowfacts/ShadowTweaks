@@ -24,6 +24,7 @@ public class STConfig {
 	public static final String REDIRECT_MOD_OPTIONS = FEATURES + ".modoptions";
 	public static final String SCREENSHOT = FEATURES + ".screenshot";
 	public static final String BEDROCK = FEATURES + ".flatbedrock";
+	public static final String SIGNS = FEATURES + ".signs";
 	public static final String MISC = "miscellaneous";
 	public static final String DEV = "indev";
 
@@ -51,6 +52,13 @@ public class STConfig {
 //	FEATURE: Flat bedrock
 	@ConfigProperty(comment = "Generate flat bedrock in the world", category = BEDROCK)
 	public static boolean flatBedrock = false;
+
+//	FEATURE: Signs
+	@ConfigProperty(comment = "Right-click to edit signs", category = SIGNS)
+	public static boolean editSigns = true;
+
+	@ConfigProperty(comment = "Shift+right-click to clear signs", category = SIGNS)
+	public static boolean clearSigns = true;
 
 //	MISC
 	@ConfigProperty(comment = "Override the Vanilla splash screen message with a random one of these", category = MISC)

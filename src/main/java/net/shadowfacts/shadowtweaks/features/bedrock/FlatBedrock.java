@@ -13,24 +13,6 @@ import java.util.Random;
  */
 public class FlatBedrock implements IWorldGenerator {
 
-	private static final String FLAT_BEDROCK = "ShadowTweaksFlatBedrock";
-
-//	@SubscribeEvent
-//	public void chunkLoad(ChunkDataEvent.Load event) {
-//		if (event.getData() != null) {
-//			if (!event.getData().getBoolean(FLAT_BEDROCK)) { // bedrock has not been replaced
-//
-//			}
-//		}
-//	}
-//
-//	@SubscribeEvent
-//	public void chunkSave(ChunkDataEvent.Save event) {
-//		event.getData().setBoolean(FLAT_BEDROCK, true);
-//	}
-
-
-	/* IWorldGenerator */
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
 		Block filler = world.provider.dimensionId == -1 ? Blocks.netherrack : world.provider.dimensionId == 1 ? Blocks.end_stone : Blocks.stone;
@@ -43,4 +25,5 @@ public class FlatBedrock implements IWorldGenerator {
 			}
 		}
 	}
+
 }

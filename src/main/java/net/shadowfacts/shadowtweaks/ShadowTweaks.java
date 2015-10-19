@@ -5,8 +5,10 @@ import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraftforge.common.MinecraftForge;
+import net.shadowfacts.shadowtweaks.client.gui.STGuiHandler;
 import net.shadowfacts.shadowtweaks.features.bedrock.FlatBedrock;
 import net.shadowfacts.shadowtweaks.proxy.CommonProxy;
 import net.shadowfacts.shadowtweaks.recipe.STRecipes;
@@ -32,12 +34,17 @@ public class ShadowTweaks {
 	@SidedProxy(serverSide = ShadowTweaks.proxyPrefix + "CommonProxy", clientSide = ShadowTweaks.proxyPrefix + "ClientProxy")
 	public static CommonProxy proxy;
 
+	@Mod.Instance(modId)
+	public static ShadowTweaks instance;
+
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		STConfig.init(event);
 
 		registerForgeHandlers();
 		registerFMLHandlers();
+
+		NetworkRegistry.INSTANCE.registerGuiHandler(instance, new STGuiHandler());
 	}
 
 	@Mod.EventHandler

@@ -3,15 +3,21 @@ package net.shadowfacts.shadowtweaks;
 import cpw.mods.fml.client.GuiIngameModOptions;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import net.minecraft.block.Block;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.command.server.CommandSummon;
 import net.minecraft.entity.EntityList;
+import net.minecraft.init.Blocks;
 import net.minecraft.launchwrapper.Launch;
+import net.minecraft.tileentity.TileEntitySign;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.event.CommandEvent;
 import net.minecraftforge.event.entity.EntityEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
 import net.shadowfacts.shadowtweaks.client.gui.GuiModOptionsList;
+import net.shadowfacts.shadowtweaks.client.gui.STGuiHandler;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
@@ -72,6 +78,23 @@ public class ForgeEventHandler {
 				if (clazz != null) {
 					System.out.println(clazz.getCanonicalName());
 					event.setCanceled(true);
+				}
+			}
+		}
+	}
+
+	@SubscribeEvent
+	public void onBlockActivated(PlayerInteractEvent event) {
+		if (event.action == Action.RIGHT_CLICK_BLOCK) {
+			Block block = event.world.getBlock(event.x, event.y, event.z);
+			if (block == Blocks.standing_sign || block == Blocks.wall_sign) {
+				if (STConfig.clearSigns || STConfig.editSigns) {
+					TileEntitySign te = (TileEntitySign)event.world.getTileEntity(event.x, event.y, event.z);
+					if (event.entityPlayer.isSneaking()) {
+						te.signText = new String[]{"", "", "", ""};
+					} else {
+						event.entityPlayer.openGui(ShadowTweaks.instance, STGuiHandler.signID, event.world, event.x, event.y, event.z);
+					}
 				}
 			}
 		}
