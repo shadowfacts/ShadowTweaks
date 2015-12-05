@@ -19,7 +19,7 @@ public class STTransformer implements IClassTransformer {
 
 	private static final List<String> classes = Arrays.asList(
 			"net.minecraft.item.ItemTool",
-			"net.minecraft.entity.player.EntityPlayer",
+//			"net.minecraft.entity.player.EntityPlayer",
 			"net.minecraft.util.ScreenShotHelper");
 
 	@Override
@@ -40,10 +40,10 @@ public class STTransformer implements IClassTransformer {
 				case 0:
 					ToolRightClickTweak.transformItemTool(classNode, obfuscated);
 					break;
+//				case 1:
+//					SleepTweak.transformEntityPlayer(classNode, obfuscated);
+//					break;
 				case 1:
-					SleepTweak.transformEntityPlayer(classNode, obfuscated);
-					break;
-				case 2:
 					ScreenShotTweak.transformScreenShotHelper(classNode, obfuscated);
 					break;
 			}
