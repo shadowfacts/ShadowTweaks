@@ -1,61 +1,119 @@
-// Config
-ext.configFile = file('build.properties')
-configFile.withReader {
-	def prop = new Properties()
-	prop.load(it)
-	project.ext.config = new ConfigSlurper().parse(prop)
-}
-
-// Buildscript
 buildscript {
 	repositories {
-		mavenCentral()
+		jcenter()
 		maven {
 			name "forge"
 			url "http://files.minecraftforge.net/maven/"
 		}
-		maven {
-			name "sonatype"
-			url "https://oss.sonatype.org/content/repositories/snapshots"
-		}
 	}
 	dependencies {
-		classpath "net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT"
+		classpath "net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT"
 	}
 }
 
-// Plugins
-apply plugin: "forge"
-apply plugin: "curseforge"
-apply plugin: "maven"
-apply from: "gradle/scripts/dependencies.gradle"
-apply from: "gradle/scripts/artifacts.gradle"
+plugins {
+	id "maven"
+	id "com.github.johnrengelman.shadow" version "1.2.2"
+	id "com.matthewprenger.cursegradle" version "1.0.5"
+	id "org.ajoberstar.grgit" version "1.3.2"
+}
 
-// Info
+apply plugin: "net.minecraftforge.gradle.forge"
+
+import org.ajoberstar.grgit.*
+
+ext.repo = Grgit.open(file("."))
+
+version = mc_version + "-" + mod_version
+
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
-version = "${config.mc_version}-${config.mod_version}"
-group = config.group
-archivesBaseName = config.archivesBaseName
-
 // Minecraft/Forge
 minecraft {
-	version = "${config.mc_version}-${config.forge_version}"
+	version = mc_version + "-" + forge_version
 	runDir = "run"
 
-	srgExtra "PK: net/shadowfacts/shadowlib net/shadowfacts/shadowmc/shadowlib"
+	mappings = mcp_mappings
+
+	replaceIn "shadowtweaks/ShadowTweaks.java"
+	replace "@VERSION@", mod_version
 }
 
 processResources {
 	inputs.property "version", project.version
-	inputs.property "mcversion", project.minecraft.version
+	inputs.property "mcversion", mc_version
 
 	from (sourceSets.main.resources.srcDirs) {
 		include 'mcmod.info'
-		expand 'version':project.version, 'mcversion':project.minecraft.version
+		expand 'version': project.version, 'mcversion': mc_version
 	}
 	from (sourceSets.main.resources.srcDirs) {
 		exclude 'mcmod.info'
 	}
 }
+
+repositories {
+	jcenter()
+	maven {
+		name "shadowfacts"
+		url "http://mvn.rx14.co.uk/shadowfacts/"
+	}
+}
+
+dependencies {
+	deobfCompile group: "net.shadowfacts", name: "ShadowMC", version: mc_version + "-" + shadowmc_version, classifier: "sources"
+
+	compile group: "com.squareup.retrofit", name: "retrofit", version: "1.9.0"
+}
+
+shadowJar {
+	classifier = ""
+	dependencies {
+		include(dependency("com.squareup.retrofit:retrofit:*"))
+	}
+}
+
+tasks.build.dependsOn sourceJar, shadowJar
+
+artifacts {
+	archives shadowJar
+	archives sourceJar
+}
+
+task (release, dependsOn: ["generateChangelog", "tagRelease", "curseforge"])
+
+task(generateChangelog) << {
+	def changelog = ""
+	def commits = repo.log {
+		range(file("gradle/last-release-commit.txt").txt, "HEAD")
+	}
+	commits.each {
+		changelog = "- " + it.fullMessage + changelog
+	}
+	file("changelog.txt").text = changelog
+	file("gradle/last-release-commit").text = commits.first().id
+}
+
+task(tagRelease) << {
+	repo.tag.add {
+		name = version
+		message = "Release ${version}"
+	}
+	repo.push(tags: true)
+}
+
+curseforge {
+	apiKey = project.hasProperty("curseForgeApiKey") ? project.curseForgeApiKey : ""
+
+	project {
+		id = "236006"
+
+		mainArtifact(shadowJar) {
+			releaseType = "beta"
+			changelog = file("changelog.txt").text
+		}
+	}
+}
+
+tasks.curseforge.mustRunAfter generateChangelog
