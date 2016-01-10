@@ -4,10 +4,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.event.ClickEvent;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.ScreenShotHelper;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.shadowfacts.shadowtweaks.ShadowTweaks;
-import net.shadowfacts.shadowtweaks.features.screenshot.ScreenShotHelper;
 import net.shadowfacts.shadowtweaks.features.screenshot.services.Service;
 import org.apache.commons.io.IOUtils;
 import retrofit.Callback;
@@ -20,12 +20,16 @@ import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
  * @author shadowfacts
  */
 public class ImgurService implements Service {
+
+	private static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss");
 
 	private String clientId;
 	private boolean copyLink;
@@ -52,7 +56,7 @@ public class ImgurService implements Service {
 
 			restAdapter.create(ImgurAPI.class).uploadImage(
 					"Client-ID " + clientId,
-					String.format("Minecraft %s screenshot from %s", MinecraftForge.MC_VERSION, ScreenShotHelper.dateFormat.format(new Date())),
+					String.format("Minecraft %s screenshot from %s", MinecraftForge.MC_VERSION, dateFormat.format(new Date())),
 					new TypedFile("image/png", screenshot),
 					new Callback<ImgurResponse>() {
 						@Override

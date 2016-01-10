@@ -1,13 +1,12 @@
 package net.shadowfacts.shadowtweaks;
 
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.SidedProxy;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.shadowfacts.shadowtweaks.client.gui.STGuiHandler;
 import net.shadowfacts.shadowtweaks.features.bedrock.FlatBedrock;
 import net.shadowfacts.shadowtweaks.proxy.CommonProxy;
@@ -42,7 +41,6 @@ public class ShadowTweaks {
 		STConfig.init(event);
 
 		registerForgeHandlers();
-		registerFMLHandlers();
 
 		NetworkRegistry.INSTANCE.registerGuiHandler(instance, new STGuiHandler());
 	}
@@ -51,15 +49,13 @@ public class ShadowTweaks {
 	public void init(FMLInitializationEvent event) {
 		STRecipes.addRecipes();
 
-		if (STConfig.flatBedrock) GameRegistry.registerWorldGenerator(new FlatBedrock(), 10);
+		if (STConfig.flatBedrock) {
+			GameRegistry.registerWorldGenerator(new FlatBedrock(), 10);
+		}
 	}
 
 	private void registerForgeHandlers() {
-		MinecraftForge.EVENT_BUS.register(new ForgeEventHandler());
-	}
-
-	private void registerFMLHandlers() {
-		FMLCommonHandler.instance().bus().register(new FMLEventHandler());
+		MinecraftForge.EVENT_BUS.register(new EventHandler());
 	}
 
 }

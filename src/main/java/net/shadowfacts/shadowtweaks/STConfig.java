@@ -1,16 +1,11 @@
 package net.shadowfacts.shadowtweaks;
 
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.shadowfacts.shadowmc.config.Config;
 import net.shadowfacts.shadowmc.config.ConfigManager;
 import net.shadowfacts.shadowmc.config.ConfigProperty;
 import net.shadowfacts.shadowtweaks.features.screenshot.services.ServiceManager;
-
-import java.io.File;
 
 /**
  * Configuration class
@@ -70,15 +65,11 @@ public class STConfig {
 	@ConfigProperty(comment = "Print the class name of the entity on /summon\nCreated for use in conjunction with removeEntities.\n", category = MISC)
 	public static boolean printEntityClass = false;
 
-//	DEV
-	@ConfigProperty(comment = "Allow the player to sleep anytime if it's raining.\nWARNING: VERY BROKEN, do not enable", category = DEV)
-	public static boolean sleepWhenRaining = false;
-
 
 	public static void init(FMLPreInitializationEvent event) {
 		ShadowTweaks.log.info("Loading config");
-		ConfigManager.instance.configDirPath = event.getModConfigurationDirectory().getAbsolutePath();
-		ConfigManager.instance.register(ShadowTweaks.modId, STConfig.class);
+		ConfigManager.instance.configDir = event.getModConfigurationDirectory();
+		ConfigManager.instance.register(ShadowTweaks.modId, STConfig.class, ShadowTweaks.modId);
 		ConfigManager.instance.load(ShadowTweaks.modId);
 
 		Configuration config = ConfigManager.instance.getConfigurationObject(ShadowTweaks.modId);

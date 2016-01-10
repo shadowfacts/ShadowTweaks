@@ -62,7 +62,7 @@ repositories {
 }
 
 dependencies {
-	deobfCompile group: "net.shadowfacts", name: "ShadowMC", version: mc_version + "-" + shadowmc_version, classifier: "sources"
+	deobfCompile group: "net.shadowfacts", name: "ShadowMC", version: mc_version + "-" + shadowmc_version
 
 	compile group: "com.squareup.retrofit", name: "retrofit", version: "1.9.0"
 }
