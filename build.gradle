@@ -123,3 +123,5 @@ curseforge {
 }
 
 tasks.curseforge.mustRunAfter generateChangelog
+reobf { shadowJar { mappingType = 'SEARGE' } }
+tasks.curseforge.dependsOn reobfShadowJar
