@@ -26,7 +26,7 @@ import java.util.Map;
  *
  * @author shadowfacts
  */
-@Mod(modid = ShadowTweaks.modId, name = ShadowTweaks.name, version = ShadowTweaks.versionString, guiFactory = ShadowTweaks.guiFactory)
+@Mod(modid = ShadowTweaks.modId, name = ShadowTweaks.name, version = ShadowTweaks.versionString, guiFactory = ShadowTweaks.guiFactory, acceptedMinecraftVersions = "[1.8.8,1.8.9]")
 public class ShadowTweaks {
 
 	public static final String modId = "ShadowTweaks";
@@ -64,7 +64,13 @@ public class ShadowTweaks {
 
 	@NetworkCheckHandler
 	public boolean networkCheckHandler(Map<String, String> versions, Side side) {
-		return side == Side.CLIENT || !requiresServerSide() || VersionMatcher.matches("1.2.*", new Version(versions.get(modId)));
+		if (side == Side.SERVER) {
+			if (requiresServerSide()) {
+				return VersionMatcher.matches("1.2.*", new Version(versions.get(modId)));
+			}
+		}
+
+		return true;
 	}
 
 	private boolean requiresServerSide() {
