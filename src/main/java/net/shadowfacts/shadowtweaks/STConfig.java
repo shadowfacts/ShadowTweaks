@@ -16,12 +16,10 @@ import net.shadowfacts.shadowtweaks.features.screenshot.services.ServiceManager;
 public class STConfig {
 
 	public static final String FEATURES = "features";
-	public static final String REDIRECT_MOD_OPTIONS = FEATURES + ".modoptions";
 	public static final String SCREENSHOT = FEATURES + ".screenshot";
 	public static final String BEDROCK = FEATURES + ".flatbedrock";
 	public static final String SIGNS = FEATURES + ".signs";
 	public static final String MISC = "miscellaneous";
-	public static final String DEV = "indev";
 
 //	FEATURES
 	@ConfigProperty(comment = "Place the block in the next slot when a tool is right clicked, akin to TiCon behavior", category = FEATURES)

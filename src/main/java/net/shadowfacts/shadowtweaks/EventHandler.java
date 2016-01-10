@@ -1,24 +1,31 @@
 package net.shadowfacts.shadowtweaks;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.command.server.CommandSummon;
 import net.minecraft.entity.EntityList;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.launchwrapper.Launch;
+import net.minecraft.tileentity.TileEntitySign;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.IChatComponent;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.event.CommandEvent;
 import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.shadowfacts.shadowmc.config.ConfigManager;
 import net.shadowfacts.shadowmc.event.ScreenShotEvent;
 import net.shadowfacts.shadowmc.event.ToolUseEvent;
+import net.shadowfacts.shadowtweaks.client.gui.STGuiHandler;
 import net.shadowfacts.shadowtweaks.features.screenshot.services.ServiceManager;
 
 import java.io.File;
@@ -77,19 +84,18 @@ public class EventHandler {
 
 	@SubscribeEvent
 	public void onBlockActivated(PlayerInteractEvent event) {
-//		if (event.action == Action.RIGHT_CLICK_BLOCK) {
-//			IBlockState state = event.world.getBlockState(event.pos);
-//			if (state.getBlock() == Blocks.standing_sign || state.getBlock() == Blocks.wall_sign) {
-//				if (STConfig.clearSigns || STConfig.editSigns) {
-//					TileEntitySign te = (TileEntitySign)event.world.getTileEntity(event.pos);
-//					if (event.entityPlayer.isSneaking()) {
-//						te.signText = new IChatComponent[]{new ChatComponentText(""), new ChatComponentText(""), new ChatComponentText(""), new ChatComponentText("")};
-//					} else {
-//						event.entityPlayer.openGui(ShadowTweaks.instance, STGuiHandler.signID, event.world, event.pos.getX(), event.pos.getY(), event.pos.getZ());
-//					}
-//				}
-//			}
-//		}
+		if (event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK) {
+			IBlockState state = event.world.getBlockState(event.pos);
+			if (state.getBlock() == Blocks.standing_sign || state.getBlock() == Blocks.wall_sign) {
+				TileEntitySign te = (TileEntitySign)event.world.getTileEntity(event.pos);
+				if (event.entityPlayer.isSneaking() && STConfig.clearSigns) {
+					IChatComponent[] value = {new ChatComponentText(""), new ChatComponentText(""), new ChatComponentText(""), new ChatComponentText("")};
+					ObfuscationReflectionHelper.setPrivateValue(TileEntitySign.class, te, value, "signText", "field_145915_a");
+				} else if (STConfig.editSigns) {
+					event.entityPlayer.openGui(ShadowTweaks.instance, STGuiHandler.signID, event.world, event.pos.getX(), event.pos.getY(), event.pos.getZ());
+				}
+			}
+		}
 	}
 
 	@SubscribeEvent
