@@ -1,0 +1,5 @@
+- Update Gradle stuffs
+- Initial update to 1.8.9
+- Client side only if certain features are disabled, methinks
+- Readability, dual 1.8.8 and 1.8.9 support
+- Fix sign tweak

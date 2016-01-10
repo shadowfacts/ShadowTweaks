@@ -86,13 +86,13 @@ task (release, dependsOn: ["generateChangelog", "tagRelease", "curseforge"])
 task(generateChangelog) << {
 	def changelog = ""
 	def commits = repo.log {
-		range(file("gradle/last-release-commit.txt").txt, "HEAD")
+		range(file("gradle/last-release-commit.txt").text, "HEAD")
 	}
 	commits.each {
 		changelog = "- " + it.fullMessage + changelog
 	}
 	file("changelog.txt").text = changelog
-	file("gradle/last-release-commit").text = commits.first().id
+	file("gradle/last-release-commit.txt").text = commits.first().id
 }
 
 task(tagRelease) << {
