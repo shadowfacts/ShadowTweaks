@@ -31,7 +31,7 @@ public class ShadowTweaks {
 
 	public static final String modId = "ShadowTweaks";
 	public static final String name = "ShadowTweaks";
-	public static final String versionString = "1.2.0";
+	public static final String versionString = "1.6.3";
 	public static final Version version = new Version(versionString);
 	public static final String proxyPrefix = "net.shadowfacts.shadowtweaks.proxy.";
 	public static final String guiFactory = "net.shadowfacts.shadowtweaks.client.gui.STGuiFactory";
