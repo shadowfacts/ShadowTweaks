@@ -63,7 +63,7 @@ public class ShadowTweaks {
 	}
 
 	@NetworkCheckHandler
-	public boolean networkCheckHandler(Map<String, String> versions, Side side) {
+	public boolean networkCheckHandler(Object instance, Map<String, String> versions, Side side) {
 		if (side == Side.SERVER) {
 			if (requiresServerSide()) {
 				return VersionMatcher.matches("1.2.*", new Version(versions.get(modId)));
