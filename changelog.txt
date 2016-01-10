@@ -1,8 +1,10 @@
-- Things
+- Release
 
-- Automatically add 1.8.8 and 1.8.9 game versions
+- Fix shading issue
 
-- Fix changelog generation
+- Fix network check handler
 
-- Fix Gradle things
+- Fix shadowJar obf
+
+- Bump version
 
