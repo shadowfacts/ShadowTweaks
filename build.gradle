@@ -112,6 +112,10 @@ curseforge {
 		mainArtifact(shadowJar) {
 			releaseType = "beta"
 			changelog = file("changelog.txt").text
+
+			relations {
+				requiredLibrary "shadowmc"
+			}
 		}
 	}
 }

@@ -30,13 +30,6 @@ public class STConfig {
 	@ConfigProperty(comment = "Add a recipe for 8 logs (in chest shape) for 4 chests", category = FEATURES)
 	public static boolean addLogChestRecipe = true;
 
-//	FEATURE: Mod options GUI
-	@ConfigProperty(name = "enable", comment = "Enable this feature", category = REDIRECT_MOD_OPTIONS)
-	public static boolean redirectModOptions = true;
-
-	@ConfigProperty(comment = "Only show mods with config GUIs", category = REDIRECT_MOD_OPTIONS)
-	public static boolean onlyConfigurableMods = true;
-
 //	FEATURE: Screenshot
 	@ConfigProperty(comment = "Change the Minecraft screenshot directory.\nLeave empty for MC default", category = SCREENSHOT)
 	public static String screenshotDir = "";

@@ -5,8 +5,12 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.network.NetworkCheckHandler;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.shadowfacts.shadowlib.version.Version;
+import net.shadowfacts.shadowlib.version.VersionMatcher;
 import net.shadowfacts.shadowtweaks.client.gui.STGuiHandler;
 import net.shadowfacts.shadowtweaks.features.bedrock.FlatBedrock;
 import net.shadowfacts.shadowtweaks.proxy.CommonProxy;
@@ -14,17 +18,21 @@ import net.shadowfacts.shadowtweaks.recipe.STRecipes;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Arrays;
+import java.util.Map;
+
 /**
  * Main mod class
  *
  * @author shadowfacts
  */
-@Mod(modid = ShadowTweaks.modId, name = ShadowTweaks.name, version = ShadowTweaks.version, guiFactory = ShadowTweaks.guiFactory)
+@Mod(modid = ShadowTweaks.modId, name = ShadowTweaks.name, version = ShadowTweaks.versionString, guiFactory = ShadowTweaks.guiFactory)
 public class ShadowTweaks {
 
 	public static final String modId = "ShadowTweaks";
 	public static final String name = "ShadowTweaks";
-	public static final String version = "1.2.0";
+	public static final String versionString = "1.2.0";
+	public static final Version version = new Version(versionString);
 	public static final String proxyPrefix = "net.shadowfacts.shadowtweaks.proxy.";
 	public static final String guiFactory = "net.shadowfacts.shadowtweaks.client.gui.STGuiFactory";
 
@@ -52,6 +60,15 @@ public class ShadowTweaks {
 		if (STConfig.flatBedrock) {
 			GameRegistry.registerWorldGenerator(new FlatBedrock(), 10);
 		}
+	}
+
+	@NetworkCheckHandler
+	public boolean networkCheckHandler(Map<String, String> versions, Side side) {
+		return side == Side.CLIENT || !requiresServerSide() || VersionMatcher.matches("1.2.*", new Version(versions.get(modId)));
+	}
+
+	private boolean requiresServerSide() {
+		return STConfig.toolRightClickPlace || STConfig.addLogChestRecipe || !Arrays.equals(STConfig.removeEntities, new String[0]);
 	}
 
 	private void registerForgeHandlers() {
