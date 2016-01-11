@@ -1,10 +1,4 @@
 - Release
 
-- Fix shading issue
-
-- Fix network check handler
-
-- Fix shadowJar obf
-
-- Bump version
+- Fix things, for reals this time
 
