@@ -28,6 +28,9 @@ public class STConfig {
 	@ConfigProperty(comment = "Add a recipe for 8 logs (in chest shape) for 4 chests", category = FEATURES)
 	public static boolean addLogChestRecipe = true;
 
+	@ConfigProperty(comment = "Allow right-clicking crops to harvest them", category = FEATURES)
+	public static boolean rightClickCrops = true;
+
 //	FEATURE: Screenshot
 	@ConfigProperty(comment = "Change the Minecraft screenshot directory.\nLeave empty for MC default", category = SCREENSHOT)
 	public static String screenshotDir = "";

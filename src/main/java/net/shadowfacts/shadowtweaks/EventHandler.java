@@ -18,7 +18,9 @@ import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.event.CommandEvent;
 import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -26,6 +28,8 @@ import net.shadowfacts.shadowmc.config.ConfigManager;
 import net.shadowfacts.shadowmc.event.ScreenShotEvent;
 import net.shadowfacts.shadowmc.event.ToolUseEvent;
 import net.shadowfacts.shadowtweaks.client.gui.STGuiHandler;
+import net.shadowfacts.shadowtweaks.features.CropHarvestFeature;
+import net.shadowfacts.shadowtweaks.features.SignFeature;
 import net.shadowfacts.shadowtweaks.features.screenshot.services.ServiceManager;
 
 import java.io.File;
@@ -87,14 +91,21 @@ public class EventHandler {
 		if (event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK) {
 			IBlockState state = event.world.getBlockState(event.pos);
 			if (state.getBlock() == Blocks.standing_sign || state.getBlock() == Blocks.wall_sign) {
-				TileEntitySign te = (TileEntitySign)event.world.getTileEntity(event.pos);
-				if (event.entityPlayer.isSneaking() && STConfig.clearSigns) {
-					IChatComponent[] value = {new ChatComponentText(""), new ChatComponentText(""), new ChatComponentText(""), new ChatComponentText("")};
-					ObfuscationReflectionHelper.setPrivateValue(TileEntitySign.class, te, value, "signText", "field_145915_a");
-				} else if (STConfig.editSigns) {
-					event.entityPlayer.openGui(ShadowTweaks.instance, STGuiHandler.signID, event.world, event.pos.getX(), event.pos.getY(), event.pos.getZ());
+				if (STConfig.editSigns || STConfig.clearSigns) {
+					SignFeature.handleSignRightClicked(event.entityPlayer, event.world, event.pos, state);
+					event.setCanceled(true);
 				}
+			} else if (CropHarvestFeature.canHandle(event.entityPlayer, event.world, event.pos, state)) {
+				CropHarvestFeature.harvestCrop(event.entityPlayer, event.world, event.pos, state);
+//				event.setCanceled(true);
 			}
+		}
+	}
+
+	@SubscribeEvent
+	public void harvestDropsEvent(BlockEvent.HarvestDropsEvent event) {
+		if (STConfig.rightClickCrops && CropHarvestFeature.shouldRemoveDrop(event.state)) {
+			CropHarvestFeature.removeDrop(event);
 		}
 	}
 
