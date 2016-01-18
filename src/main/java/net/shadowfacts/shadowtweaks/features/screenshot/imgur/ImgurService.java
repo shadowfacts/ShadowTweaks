@@ -1,14 +1,13 @@
-package net.shadowfacts.shadowtweaks.features.screenshot.services.imgur;
+package net.shadowfacts.shadowtweaks.features.screenshot.imgur;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.event.ClickEvent;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
-import net.minecraft.util.ScreenShotHelper;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.shadowfacts.shadowtweaks.ShadowTweaks;
-import net.shadowfacts.shadowtweaks.features.screenshot.services.Service;
+import net.shadowfacts.shadowtweaks.features.screenshot.Service;
 import org.apache.commons.io.IOUtils;
 import retrofit.Callback;
 import retrofit.RestAdapter;

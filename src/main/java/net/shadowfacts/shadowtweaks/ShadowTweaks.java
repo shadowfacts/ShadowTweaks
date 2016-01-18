@@ -12,7 +12,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.shadowfacts.shadowlib.version.Version;
 import net.shadowfacts.shadowlib.version.VersionMatcher;
 import net.shadowfacts.shadowtweaks.client.gui.STGuiHandler;
-import net.shadowfacts.shadowtweaks.features.bedrock.FlatBedrock;
+import net.shadowfacts.shadowtweaks.features.FlatBedrockFeature;
 import net.shadowfacts.shadowtweaks.proxy.CommonProxy;
 import net.shadowfacts.shadowtweaks.recipe.STRecipes;
 import org.apache.logging.log4j.LogManager;
@@ -58,7 +58,7 @@ public class ShadowTweaks {
 		STRecipes.addRecipes();
 
 		if (STConfig.flatBedrock) {
-			GameRegistry.registerWorldGenerator(new FlatBedrock(), 10);
+			GameRegistry.registerWorldGenerator(new FlatBedrockFeature(), 10);
 		}
 	}
 

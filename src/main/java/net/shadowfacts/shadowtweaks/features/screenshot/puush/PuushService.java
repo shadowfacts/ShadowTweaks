@@ -1,7 +1,7 @@
-package net.shadowfacts.shadowtweaks.features.screenshot.services.puush;
+package net.shadowfacts.shadowtweaks.features.screenshot.puush;
 
 import net.minecraftforge.common.config.Configuration;
-import net.shadowfacts.shadowtweaks.features.screenshot.services.Service;
+import net.shadowfacts.shadowtweaks.features.screenshot.Service;
 
 import java.io.File;
 

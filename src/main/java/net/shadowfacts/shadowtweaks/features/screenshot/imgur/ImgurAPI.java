@@ -1,4 +1,4 @@
-package net.shadowfacts.shadowtweaks.features.screenshot.services.imgur;
+package net.shadowfacts.shadowtweaks.features.screenshot.imgur;
 
 import retrofit.Callback;
 import retrofit.http.Body;

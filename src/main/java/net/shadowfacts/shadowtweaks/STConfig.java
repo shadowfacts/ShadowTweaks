@@ -5,7 +5,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.shadowfacts.shadowmc.config.Config;
 import net.shadowfacts.shadowmc.config.ConfigManager;
 import net.shadowfacts.shadowmc.config.ConfigProperty;
-import net.shadowfacts.shadowtweaks.features.screenshot.services.ServiceManager;
+import net.shadowfacts.shadowtweaks.features.screenshot.ServiceManager;
 
 /**
  * Configuration class

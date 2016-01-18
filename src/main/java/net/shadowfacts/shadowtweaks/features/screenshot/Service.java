@@ -1,4 +1,4 @@
-package net.shadowfacts.shadowtweaks.features.screenshot.services;
+package net.shadowfacts.shadowtweaks.features.screenshot;
 
 import net.minecraftforge.common.config.Configuration;
 

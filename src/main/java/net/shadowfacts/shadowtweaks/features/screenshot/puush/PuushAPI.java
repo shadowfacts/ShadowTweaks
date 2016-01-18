@@ -1,4 +1,4 @@
-package net.shadowfacts.shadowtweaks.features.screenshot.services.puush;
+package net.shadowfacts.shadowtweaks.features.screenshot.puush;
 
 import retrofit.http.POST;
 import retrofit.http.Query;

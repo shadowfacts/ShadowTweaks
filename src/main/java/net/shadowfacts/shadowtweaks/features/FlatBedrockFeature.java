@@ -1,4 +1,4 @@
-package net.shadowfacts.shadowtweaks.features.bedrock;
+package net.shadowfacts.shadowtweaks.features;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -12,7 +12,7 @@ import java.util.Random;
 /**
  * @author shadowfacts
  */
-public class FlatBedrock implements IWorldGenerator {
+public class FlatBedrockFeature implements IWorldGenerator {
 
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {

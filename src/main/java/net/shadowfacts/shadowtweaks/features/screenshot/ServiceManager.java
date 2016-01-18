@@ -1,8 +1,8 @@
-package net.shadowfacts.shadowtweaks.features.screenshot.services;
+package net.shadowfacts.shadowtweaks.features.screenshot;
 
 import net.minecraftforge.common.config.Configuration;
 import net.shadowfacts.shadowtweaks.STConfig;
-import net.shadowfacts.shadowtweaks.features.screenshot.services.imgur.ImgurService;
+import net.shadowfacts.shadowtweaks.features.screenshot.imgur.ImgurService;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package net.shadowfacts.shadowtweaks.features.screenshot.services.imgur;
+package net.shadowfacts.shadowtweaks.features.screenshot.imgur;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
