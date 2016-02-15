@@ -50,46 +50,43 @@ public class ImgurService implements Service {
 
 	@Override
 	public void accept(File screenshot) {
-		((Runnable) () -> {
-			RestAdapter restAdapter = new RestAdapter.Builder().setEndpoint(ImgurAPI.server).build();
+		RestAdapter restAdapter = new RestAdapter.Builder().setEndpoint(ImgurAPI.server).build();
 
-			restAdapter.create(ImgurAPI.class).uploadImage(
-					"Client-ID " + clientId,
-					String.format("Minecraft %s screenshot from %s", MinecraftForge.MC_VERSION, dateFormat.format(new Date())),
-					new TypedFile("image/png", screenshot),
-					new Callback<ImgurResponse>() {
-						@Override
-						public void success(ImgurResponse imgurResponse, Response response) {
-							if (response == null) {
-								ShadowTweaks.log.error("There was a problem uploading a screenshot to Imgur");
-								return;
-							}
-
-							ChatComponentText url = new ChatComponentText(imgurResponse.getData().getLink());
-							url.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, imgurResponse.getData().getLink()));
-							url.getChatStyle().setUnderlined(true);
-
-							Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentTranslation("shadowtweaks.service.imgur.success", url));
-
-							if (copyLink) {
-								Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-								clipboard.setContents(new StringSelection(imgurResponse.getData().getLink()), null);
-							}
+		restAdapter.create(ImgurAPI.class).uploadImage(
+				"Client-ID " + clientId,
+				String.format("Minecraft %s screenshot from %s", MinecraftForge.MC_VERSION, dateFormat.format(new Date())),
+				new TypedFile("image/png", screenshot),
+				new Callback<ImgurResponse>() {
+					@Override
+					public void success(ImgurResponse imgurResponse, Response response) {
+						if (response == null) {
+							ShadowTweaks.log.error("There was a problem uploading a screenshot to Imgur");
+							return;
 						}
 
-						@Override
-						public void failure(RetrofitError error) {
-							ShadowTweaks.log.error("There was a problem uploading a screenshot to Imgur:");
+						ChatComponentText url = new ChatComponentText(imgurResponse.getData().getLink());
+						url.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, imgurResponse.getData().getLink()));
+						url.getChatStyle().setUnderlined(true);
 
-							try {
-								ShadowTweaks.log.error(IOUtils.toString(error.getResponse().getBody().in()));
-							} catch (Exception ignored) {}
+						Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentTranslation("shadowtweaks.service.imgur.success", url));
 
-							Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentTranslation("shadowtweaks.service.imgur.failure"));
+						if (copyLink) {
+							Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+							clipboard.setContents(new StringSelection(imgurResponse.getData().getLink()), null);
 						}
 					}
-			);
 
-		}).run();
+					@Override
+					public void failure(RetrofitError error) {
+						ShadowTweaks.log.error("There was a problem uploading a screenshot to Imgur:");
+
+						try {
+							ShadowTweaks.log.error(IOUtils.toString(error.getResponse().getBody().in()));
+						} catch (Exception ignored) {}
+
+						Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentTranslation("shadowtweaks.service.imgur.failure"));
+					}
+				}
+		);
 	}
 }

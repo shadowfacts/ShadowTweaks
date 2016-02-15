@@ -12,7 +12,7 @@ import java.util.Map;
  */
 public class ServiceManager {
 
-	private static HashMap<String, Service> services = new HashMap<>();
+	private static Map<String, Service> services = new HashMap<>();
 
 	static {
 		register(new ImgurService());

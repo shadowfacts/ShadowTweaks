@@ -31,7 +31,7 @@ public class ShadowTweaks {
 
 	public static final String modId = "ShadowTweaks";
 	public static final String name = "ShadowTweaks";
-	public static final String versionString = "1.6.3";
+	public static final String versionString = "1.7.1";
 	public static final Version version = new Version(versionString);
 	public static final String proxyPrefix = "net.shadowfacts.shadowtweaks.proxy.";
 	public static final String guiFactory = "net.shadowfacts.shadowtweaks.client.gui.STGuiFactory";
@@ -63,10 +63,10 @@ public class ShadowTweaks {
 	}
 
 	@NetworkCheckHandler
-	public boolean networkCheckHandler(Object instance, Map<String, String> versions, Side side) {
+	public boolean networkCheckHandler(Map<String, String> versions, Side side) {
 		if (side == Side.SERVER) {
 			if (requiresServerSide()) {
-				return VersionMatcher.matches("1.2.*", new Version(versions.get(modId)));
+				return VersionMatcher.matches("1.7.*", new Version(versions.get(modId)));
 			}
 		}
 

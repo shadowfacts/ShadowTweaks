@@ -1,4 +1,8 @@
 - Release
 
-- Fix things, for reals this time
+- Crop right-click harvesting
+
+- Reorganize things
+
+- Bump version
 
