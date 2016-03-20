@@ -6,9 +6,10 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntitySign;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.shadowfacts.shadowtweaks.STConfig;
@@ -28,7 +29,7 @@ public class SignFeature {
 		if (te instanceof TileEntitySign) {
 			TileEntitySign sign = (TileEntitySign)te;
 			if (player.isSneaking() && STConfig.clearSigns) {
-				IChatComponent[] text = new IChatComponent[]{new ChatComponentText(""), new ChatComponentText(""), new ChatComponentText(""), new ChatComponentText("")};
+				ITextComponent[] text = new ITextComponent[]{new TextComponentString(""), new TextComponentString(""), new TextComponentString(""), new TextComponentString("")};
 				ObfuscationReflectionHelper.setPrivateValue(TileEntitySign.class, sign, text, "signText", "field_145915_a");
 				success = true;
 			} else if (STConfig.editSigns) {
@@ -38,7 +39,7 @@ public class SignFeature {
 		}
 
 		if (success) {
-			player.swingItem();
+			player.swingArm(EnumHand.MAIN_HAND);
 		}
 	}
 

@@ -15,14 +15,9 @@ import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.shadowfacts.shadowmc.config.ConfigManager;
-import net.shadowfacts.shadowmc.event.ScreenShotEvent;
-import net.shadowfacts.shadowmc.event.ToolUseEvent;
 import net.shadowfacts.shadowtweaks.features.CropHarvestFeature;
-import net.shadowfacts.shadowtweaks.features.SignFeature;
-import net.shadowfacts.shadowtweaks.features.ToolPlaceFeature;
 import net.shadowfacts.shadowtweaks.features.screenshot.ServiceManager;
 
-import java.io.File;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
@@ -78,18 +73,19 @@ public class EventHandler {
 
 	@SubscribeEvent
 	public void onBlockActivated(PlayerInteractEvent event) {
-		if (event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK) {
-			IBlockState state = event.world.getBlockState(event.pos);
-			if (state.getBlock() == Blocks.standing_sign || state.getBlock() == Blocks.wall_sign) {
-				if (STConfig.editSigns || STConfig.clearSigns) {
-					SignFeature.handleSignRightClicked(event.entityPlayer, event.world, event.pos, state);
-					event.setCanceled(true);
-				}
-			} else if (CropHarvestFeature.canHandle(event.entityPlayer, event.world, event.pos, state)) {
-				CropHarvestFeature.harvestCrop(event.entityPlayer, event.world, event.pos, state);
-				event.setCanceled(true);
-			}
-		}
+//		if (event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK) {
+//			IBlockState state = event.world.getBlockState(event.pos);
+//			if (state.getBlock() == Blocks.standing_sign || state.getBlock() == Blocks.wall_sign) {
+//				if (STConfig.editSigns || STConfig.clearSigns) {
+//					SignFeature.handleSignRightClicked(event.entityPlayer, event.world, event.pos, state);
+//					event.setCanceled(true);
+//				}
+//			}else if (CropHarvestFeature.canHandle(event.entityPlayer, event.world, event.pos, state)) {
+//				CropHarvestFeature.harvestCrop(event.entityPlayer, event.world, event.pos, state);
+//				event.setCanceled(true);
+//			}
+//		}
+//		TODO: enable this (pending https://github.com/MinecraftForge/MinecraftForge/issues/2591)
 	}
 
 	@SubscribeEvent
@@ -107,25 +103,27 @@ public class EventHandler {
 		}
 	}
 
-	@SubscribeEvent
-	public void onToolUse(ToolUseEvent event) {
-		ToolPlaceFeature.onToolUse(event);
-	}
+//	@SubscribeEvent
+//	public void onToolUse(ToolUseEvent event) {
+//		ToolPlaceFeature.onToolUse(event);
+//	}
+//	TODO: rewrite this ^
 
-	@SubscribeEvent
-	public void onPreScreenshot(ScreenShotEvent.Pre event) {
-		if (!STConfig.screenshotDir.isEmpty()) {
-			File screenshotsDir = new File(STConfig.screenshotDir);
-			if (!screenshotsDir.exists()) screenshotsDir.mkdirs();
-			event.setScreenshotFile(new File(screenshotsDir, event.getScreenshotFile().getName()));
-		}
-	}
-
-	@SubscribeEvent
-	public void onPostScreenshot(ScreenShotEvent.Post event) {
-		if (ServiceManager.getActiveService() != null) {
-			ServiceManager.getActiveService().accept(event.getScreenshotFile());
-		}
-	}
+//	@SubscribeEvent
+//	public void onPreScreenshot(ScreenShotEvent.Pre event) {
+//		if (!STConfig.screenshotDir.isEmpty()) {
+//			File screenshotsDir = new File(STConfig.screenshotDir);
+//			if (!screenshotsDir.exists()) screenshotsDir.mkdirs();
+//			event.setScreenshotFile(new File(screenshotsDir, event.getScreenshotFile().getName()));
+//		}
+//	}
+//
+//	@SubscribeEvent
+//	public void onPostScreenshot(ScreenShotEvent.Post event) {
+//		if (ServiceManager.getActiveService() != null) {
+//			ServiceManager.getActiveService().accept(event.getScreenshotFile());
+//		}
+//	}
+//	TODO: re-enable pending https://github.com/MinecraftForge/MinecraftForge/pull/2602
 
 }

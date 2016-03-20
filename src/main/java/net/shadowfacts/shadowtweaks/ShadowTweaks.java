@@ -11,6 +11,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.shadowfacts.shadowlib.version.Version;
 import net.shadowfacts.shadowlib.version.VersionMatcher;
+import net.shadowfacts.shadowmc.util.LogHelper;
 import net.shadowfacts.shadowtweaks.client.gui.STGuiHandler;
 import net.shadowfacts.shadowtweaks.features.FlatBedrockFeature;
 import net.shadowfacts.shadowtweaks.proxy.CommonProxy;
@@ -26,19 +27,17 @@ import java.util.Map;
  *
  * @author shadowfacts
  */
-@Mod(modid = ShadowTweaks.modId, name = ShadowTweaks.name, version = ShadowTweaks.versionString, guiFactory = ShadowTweaks.guiFactory, acceptedMinecraftVersions = "[1.8.8,1.8.9]")
+@Mod(modid = ShadowTweaks.modId, name = ShadowTweaks.name, version = ShadowTweaks.versionString, guiFactory = "net.shadowfacts.shadowtweaks.client.gui.STGuiFactory", acceptedMinecraftVersions = "[1.9]")
 public class ShadowTweaks {
 
 	public static final String modId = "ShadowTweaks";
 	public static final String name = "ShadowTweaks";
-	public static final String versionString = "1.7.1";
+	public static final String versionString = "1.8";
 	public static final Version version = new Version(versionString);
-	public static final String proxyPrefix = "net.shadowfacts.shadowtweaks.proxy.";
-	public static final String guiFactory = "net.shadowfacts.shadowtweaks.client.gui.STGuiFactory";
 
-	public static Logger log = LogManager.getLogger(modId);
+	public static LogHelper log = new LogHelper(modId);
 
-	@SidedProxy(serverSide = ShadowTweaks.proxyPrefix + "CommonProxy", clientSide = ShadowTweaks.proxyPrefix + "ClientProxy")
+	@SidedProxy(serverSide = "net.shadowfacts.shadowtweaks.proxy.CommonProxy", clientSide = "net.shadowfacts.shadowtweaks.proxy.ClientProxy")
 	public static CommonProxy proxy;
 
 	@Mod.Instance(modId)

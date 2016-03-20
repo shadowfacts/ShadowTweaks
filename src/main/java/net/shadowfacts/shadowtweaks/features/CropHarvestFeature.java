@@ -8,10 +8,9 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.WeightedRandom;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.oredict.OreDictionary;
 import net.shadowfacts.shadowtweaks.STConfig;
@@ -36,7 +35,7 @@ public class CropHarvestFeature {
 	}
 
 	public static boolean canHandle(EntityPlayer player, World world, BlockPos pos, IBlockState state) {
-		if (STConfig.rightClickCrops && (player.getHeldItem() == null || !player.isSneaking())) {
+		if (STConfig.rightClickCrops && (player.getHeldItem(EnumHand.MAIN_HAND) == null || !player.isSneaking())) {
 			CropHarvestInfo info = plants.get(state.getBlock());
 			if (info != null) {
 				return state.getBlock().getMetaFromState(state) == info.beforeMeta;
@@ -47,7 +46,7 @@ public class CropHarvestFeature {
 
 	public static void harvestCrop(EntityPlayer player, World world, BlockPos pos, IBlockState state) {
 		if (world.isRemote) {
-			player.swingItem();
+			player.swingArm(EnumHand.MAIN_HAND);
 		} else {
 			currentPlant = state.getBlock();
 			state.getBlock().dropBlockAsItem(world, pos, state, 0);

@@ -20,10 +20,6 @@ plugins {
 
 apply plugin: "net.minecraftforge.gradle.forge"
 
-import org.ajoberstar.grgit.*
-
-ext.repo = Grgit.open(file("."))
-
 version = mc_version + "-" + mod_version
 
 sourceCompatibility = JavaVersion.VERSION_1_8
@@ -78,30 +74,6 @@ artifacts {
 	archives sourceJar
 }
 
-task (release, dependsOn: ["generateChangelog", "tagRelease", "curseforge"])
-
-task(generateChangelog) << {
-	def changelog = ""
-	def commits = repo.log {
-		range(file("gradle/last-release-commit.txt").text, "HEAD")
-	}
-	commits.each {
-		changelog = "- " + it.fullMessage + "\n" + changelog
-	}
-	file("changelog.txt").text = changelog
-	file("gradle/last-release-commit.txt").text = commits.first().id
-}
-
-task(tagRelease) << {
-	repo.tag.add {
-		name = version
-		message = "Release ${version}"
-	}
-	repo.push(tags: true)
-}
-
-tasks.generateChangelog.mustRunAfter tagRelease
-
 curseforge {
 	apiKey = project.hasProperty("curseForgeApiKey") ? project.curseForgeApiKey : ""
 
@@ -122,7 +94,6 @@ curseforge {
 	}
 }
 
-tasks.curseforge.mustRunAfter generateChangelog
 reobf { shadowJar { mappingType = 'SEARGE' } }
 tasks.reobfShadowJar.mustRunAfter shadowJar
 afterEvaluate {

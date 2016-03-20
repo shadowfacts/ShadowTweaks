@@ -1,9 +1,10 @@
 package net.shadowfacts.shadowtweaks.features.screenshot.imgur;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.event.ClickEvent;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.event.ClickEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.shadowfacts.shadowtweaks.ShadowTweaks;
@@ -64,11 +65,11 @@ public class ImgurService implements Service {
 							return;
 						}
 
-						ChatComponentText url = new ChatComponentText(imgurResponse.getData().getLink());
+						ITextComponent url = new TextComponentString(imgurResponse.getData().getLink());
 						url.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, imgurResponse.getData().getLink()));
 						url.getChatStyle().setUnderlined(true);
 
-						Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentTranslation("shadowtweaks.service.imgur.success", url));
+						Minecraft.getMinecraft().thePlayer.addChatMessage(new TextComponentTranslation("shadowtweaks.service.imgur.success", url));
 
 						if (copyLink) {
 							Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
@@ -84,7 +85,7 @@ public class ImgurService implements Service {
 							ShadowTweaks.log.error(IOUtils.toString(error.getResponse().getBody().in()));
 						} catch (Exception ignored) {}
 
-						Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentTranslation("shadowtweaks.service.imgur.failure"));
+						Minecraft.getMinecraft().thePlayer.addChatMessage(new TextComponentTranslation("shadowtweaks.service.imgur.failure"));
 					}
 				}
 		);
