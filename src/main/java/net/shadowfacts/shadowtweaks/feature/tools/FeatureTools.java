@@ -71,7 +71,7 @@ public class FeatureTools extends Feature {
 
 					Block blockToPlace = ((ItemBlock) toPlaceStack.getItem()).block;
 
-					if (blockToPlace.getMaterial(blockToPlace.getDefaultState()).blocksMovement() && playerBounds.intersectsWith(blockBounds)) {
+					if (blockToPlace.getDefaultState().getMaterial().blocksMovement() && playerBounds.intersectsWith(blockBounds)) {
 						event.setCanceled(true);
 						return;
 					}

@@ -7,7 +7,7 @@ buildscript {
 		}
 	}
 	dependencies {
-		classpath "net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT"
+		classpath "net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT"
 	}
 }
 
@@ -30,6 +30,9 @@ minecraft {
 	runDir = "run"
 
 	mappings = mcp_mappings
+
+	replaceIn "shadowtweaks/ShadowTweaks.java"
+	replace "@VERSION@", version
 }
 
 processResources {

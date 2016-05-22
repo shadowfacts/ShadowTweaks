@@ -16,6 +16,7 @@ import net.shadowfacts.shadowtweaks.feature.dev.FeatureDevTools;
 import net.shadowfacts.shadowtweaks.feature.recipe.FeatureExtraRecipes;
 import net.shadowfacts.shadowtweaks.feature.screenshot.FeatureScreenshot;
 import net.shadowfacts.shadowtweaks.feature.sign.FeatureSign;
+import net.shadowfacts.shadowtweaks.feature.splash.FeatureSplashMessages;
 import net.shadowfacts.shadowtweaks.feature.tools.FeatureTools;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,16 +29,16 @@ import java.util.Map;
 /**
  * @author shadowfacts
  */
-@Mod(modid = ShadowTweaks.modId, name = ShadowTweaks.name, version = ShadowTweaks.version, acceptedMinecraftVersions = "[1.9]", dependencies = "required-after:shadowmc@[3.1.0,);required-after:Forge@[12.16.1.1897,);")
+@Mod(modid = ShadowTweaks.modId, name = ShadowTweaks.name, version = ShadowTweaks.version, acceptedMinecraftVersions = "[1.9.4]", dependencies = "required-after:shadowmc;", guiFactory = "net.shadowfacts.shadowtweaks.client.STGuiFactory")
 public final class ShadowTweaks {
 
 	public static final String modId = "ShadowTweaks";
 	public static final String name = "Shadow Tweaks";
-	public static final String version = "1.8.0";
+	public static final String version = "1.9.0";
 
 	public static Logger log = LogManager.getLogger(modId);
 
-	private Configuration config;
+	public static Configuration config;
 	private List<Feature> features = new ArrayList<>();
 
 	@Mod.EventHandler
@@ -51,6 +52,7 @@ public final class ShadowTweaks {
 		features.add(new FeatureScreenshot());
 		features.add(new FeatureSign());
 		features.add(new FeatureTools());
+		features.add(new FeatureSplashMessages());
 
 		features.forEach(feature -> feature.configure(config));
 
@@ -81,7 +83,7 @@ public final class ShadowTweaks {
 			return true;
 		} else {
 			if (requiresServerSide()) {
-				return VersionMatcher.matches("1.8.*", new Version(versions.get(modId)));
+				return VersionMatcher.matches("1.9.*", new Version(versions.get(modId)));
 			}
 		}
 
