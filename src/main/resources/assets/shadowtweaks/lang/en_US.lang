@@ -1,6 +1,12 @@
 # Config
-shadowtweaks.config.ctgy.features=Features
-shadowtweaks.config.ctgy.misc=Miscellaneous
+shadowtweaks.cfg._features=Features
+shadowtweaks.cfg.devtools=Dev Tools
+shadowtweaks.cfg.extrarecipes=Extra Recipes
+shadowtweaks.cfg.screenshot=Screenshot
+shadowtweaks.cfg.screenshot.imgur=Screenshot (Imgur)
+shadowtweaks.cfg.sign=Sign
+shadowtweaks.cfg.splashmessages=Splash Messages
+shadowtweaks.cfg.tools=Tools
 
 # Chat messages
 shadowtweaks.service.imgur.success=Uploaded screenshot to Imgur at %s

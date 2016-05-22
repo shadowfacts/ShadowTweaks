@@ -29,7 +29,7 @@ import java.util.Map;
 /**
  * @author shadowfacts
  */
-@Mod(modid = ShadowTweaks.modId, name = ShadowTweaks.name, version = ShadowTweaks.version, acceptedMinecraftVersions = "[1.9]", dependencies = "required-after:shadowmc@[3.1.0,);required-after:Forge@[12.16.1.1897,);")
+@Mod(modid = ShadowTweaks.modId, name = ShadowTweaks.name, version = ShadowTweaks.version, acceptedMinecraftVersions = "[1.9]", dependencies = "required-after:shadowmc@[3.1.0,);required-after:Forge@[12.16.1.1897,);", guiFactory = "net.shadowfacts.shadowtweaks.client.STGuiFactory")
 public final class ShadowTweaks {
 
 	public static final String modId = "ShadowTweaks";
@@ -38,7 +38,7 @@ public final class ShadowTweaks {
 
 	public static Logger log = LogManager.getLogger(modId);
 
-	private Configuration config;
+	public static Configuration config;
 	private List<Feature> features = new ArrayList<>();
 
 	@Mod.EventHandler
