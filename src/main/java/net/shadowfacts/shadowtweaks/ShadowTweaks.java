@@ -16,6 +16,7 @@ import net.shadowfacts.shadowtweaks.feature.dev.FeatureDevTools;
 import net.shadowfacts.shadowtweaks.feature.recipe.FeatureExtraRecipes;
 import net.shadowfacts.shadowtweaks.feature.screenshot.FeatureScreenshot;
 import net.shadowfacts.shadowtweaks.feature.sign.FeatureSign;
+import net.shadowfacts.shadowtweaks.feature.splash.FeatureSplashMessages;
 import net.shadowfacts.shadowtweaks.feature.tools.FeatureTools;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -51,6 +52,7 @@ public final class ShadowTweaks {
 		features.add(new FeatureScreenshot());
 		features.add(new FeatureSign());
 		features.add(new FeatureTools());
+		features.add(new FeatureSplashMessages());
 
 		features.forEach(feature -> feature.configure(config));
 
