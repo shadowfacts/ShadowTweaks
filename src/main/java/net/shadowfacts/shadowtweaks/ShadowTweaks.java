@@ -1,71 +1,87 @@
 package net.shadowfacts.shadowtweaks;
 
-import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkCheckHandler;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.shadowfacts.shadowlib.version.Version;
 import net.shadowfacts.shadowlib.version.VersionMatcher;
-import net.shadowfacts.shadowmc.util.LogHelper;
-import net.shadowfacts.shadowtweaks.client.gui.STGuiHandler;
-import net.shadowfacts.shadowtweaks.features.FlatBedrockFeature;
-import net.shadowfacts.shadowtweaks.proxy.CommonProxy;
-import net.shadowfacts.shadowtweaks.recipe.STRecipes;
+import net.shadowfacts.shadowtweaks.feature.Feature;
+import net.shadowfacts.shadowtweaks.feature.bedrock.FeatureFlatBedrock;
+import net.shadowfacts.shadowtweaks.feature.crops.FeatureCrops;
+import net.shadowfacts.shadowtweaks.feature.dev.FeatureDevTools;
+import net.shadowfacts.shadowtweaks.feature.recipe.FeatureExtraRecipes;
+import net.shadowfacts.shadowtweaks.feature.screenshot.FeatureScreenshot;
+import net.shadowfacts.shadowtweaks.feature.sign.FeatureSign;
+import net.shadowfacts.shadowtweaks.feature.tools.FeatureTools;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.Arrays;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
- * Main mod class
- *
  * @author shadowfacts
  */
-@Mod(modid = ShadowTweaks.modId, name = ShadowTweaks.name, version = ShadowTweaks.versionString, guiFactory = "net.shadowfacts.shadowtweaks.client.gui.STGuiFactory", acceptedMinecraftVersions = "[1.9]")
-public class ShadowTweaks {
+@Mod(modid = ShadowTweaks.modId, name = ShadowTweaks.name, version = ShadowTweaks.version, acceptedMinecraftVersions = "[1.9]", dependencies = "required-after:shadowmc@[3.1.0,);required-after:Forge@[12.16.1.1897,);")
+public final class ShadowTweaks {
 
 	public static final String modId = "ShadowTweaks";
-	public static final String name = "ShadowTweaks";
-	public static final String versionString = "1.8";
-	public static final Version version = new Version(versionString);
+	public static final String name = "Shadow Tweaks";
+	public static final String version = "1.8.0";
 
-	public static LogHelper log = new LogHelper(modId);
+	public static Logger log = LogManager.getLogger(modId);
 
-	@SidedProxy(serverSide = "net.shadowfacts.shadowtweaks.proxy.CommonProxy", clientSide = "net.shadowfacts.shadowtweaks.proxy.ClientProxy")
-	public static CommonProxy proxy;
-
-	@Mod.Instance(modId)
-	public static ShadowTweaks instance;
+	private Configuration config;
+	private List<Feature> features = new ArrayList<>();
 
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
-		STConfig.init(event);
+		config = new Configuration(new File(event.getModConfigurationDirectory(), "shadowfacts/ShadowTweaks.cfg"));
 
-		registerForgeHandlers();
+		features.add(new FeatureFlatBedrock());
+		features.add(new FeatureCrops());
+		features.add(new FeatureDevTools());
+		features.add(new FeatureExtraRecipes());
+		features.add(new FeatureScreenshot());
+		features.add(new FeatureSign());
+		features.add(new FeatureTools());
 
-		NetworkRegistry.INSTANCE.registerGuiHandler(instance, new STGuiHandler());
+		features.forEach(feature -> feature.configure(config));
+
+		config.save();
+
+		features.stream()
+				.filter(Feature::isEnabled)
+				.forEach(Feature::preInit);
 	}
 
 	@Mod.EventHandler
 	public void init(FMLInitializationEvent event) {
-		STRecipes.addRecipes();
+		features.stream()
+				.filter(Feature::isEnabled)
+				.forEach(Feature::init);
+	}
 
-		if (STConfig.flatBedrock) {
-			GameRegistry.registerWorldGenerator(new FlatBedrockFeature(), 10);
-		}
+	@Mod.EventHandler
+	public void postInit(FMLPostInitializationEvent event) {
+		features.stream()
+				.filter(Feature::isEnabled)
+				.forEach(Feature::postInit);
 	}
 
 	@NetworkCheckHandler
 	public boolean networkCheckHandler(Map<String, String> versions, Side side) {
-		if (side == Side.SERVER) {
+		if (side == Side.CLIENT) {
+			return true;
+		} else {
 			if (requiresServerSide()) {
-				return VersionMatcher.matches("1.7.*", new Version(versions.get(modId)));
+				return VersionMatcher.matches("1.8.*", new Version(versions.get(modId)));
 			}
 		}
 
@@ -73,11 +89,10 @@ public class ShadowTweaks {
 	}
 
 	private boolean requiresServerSide() {
-		return STConfig.toolRightClickPlace || STConfig.addLogChestRecipe || !Arrays.equals(STConfig.removeEntities, new String[0]);
-	}
-
-	private void registerForgeHandlers() {
-		MinecraftForge.EVENT_BUS.register(new EventHandler());
+		return features.stream()
+				.filter(Feature::requiresServerSide)
+				.findFirst()
+				.isPresent();
 	}
 
 }

@@ -1,4 +1,4 @@
-package net.shadowfacts.shadowtweaks.features.screenshot.imgur;
+package net.shadowfacts.shadowtweaks.feature.screenshot.service.imgur;
 
 import retrofit.Callback;
 import retrofit.http.Body;
@@ -14,12 +14,12 @@ public interface ImgurAPI {
 
 	String server = "https://api.imgur.com";
 
-	@POST("/3/image")
+	@POST(("/3/image"))
 	void uploadImage(
 			@Header("Authorization") String auth,
 			@Query("title") String title,
 			@Body TypedFile file,
-			Callback<ImgurResponse> cb
+			Callback<ImgurResponse> callback
 	);
 
 }
