@@ -34,7 +34,7 @@ public final class ShadowTweaks {
 
 	public static final String modId = "ShadowTweaks";
 	public static final String name = "Shadow Tweaks";
-	public static final String version = "1.9.0";
+	public static final String version = "@VERSION@";
 
 	public static Logger log = LogManager.getLogger(modId);
 

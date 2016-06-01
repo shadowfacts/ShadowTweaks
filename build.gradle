@@ -31,7 +31,7 @@ minecraft {
 
 	mappings = mcp_mappings
 
-	replaceIn "shadowtweaks/ShadowTweaks.java"
+	replaceIn "ShadowTweaks.java"
 	replace "@VERSION@", version
 }
 
@@ -82,8 +82,7 @@ curseforge {
 	project {
 		id = "236006"
 
-		addGameVersion "1.8.8"
-		addGameVersion "1.8.9"
+		addGameVersion "1.9.4"
 
 		mainArtifact(shadowJar) {
 			releaseType = "beta"
