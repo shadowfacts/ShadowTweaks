@@ -63,33 +63,35 @@ public class FeatureTools extends Feature {
 				if (toPlaceStack != null && toPlaceStack.getItem() instanceof ItemBlock) {
 					RayTraceResult rayTrace = rayTracePlayerLook(event.getEntityPlayer());
 
-					EnumFacing hitSide = rayTrace.sideHit;
-					BlockPos pos = new BlockPos(rayTrace.hitVec);
+					if (rayTrace != null && rayTrace.typeOfHit == RayTraceResult.Type.BLOCK) {
 
-					AxisAlignedBB blockBounds = new AxisAlignedBB(pos, pos.add(1, 1, 1));
-					AxisAlignedBB playerBounds = event.getEntityPlayer().getEntityBoundingBox();
+						EnumFacing hitSide = rayTrace.sideHit;
+						BlockPos pos = new BlockPos(rayTrace.hitVec);
 
-					Block blockToPlace = ((ItemBlock) toPlaceStack.getItem()).block;
+						AxisAlignedBB blockBounds = new AxisAlignedBB(pos, pos.add(1, 1, 1));
+						AxisAlignedBB playerBounds = event.getEntityPlayer().getEntityBoundingBox();
 
-					if (blockToPlace.getDefaultState().getMaterial().blocksMovement() && playerBounds.intersectsWith(blockBounds)) {
-						event.setCanceled(true);
-						return;
-					}
-
-					int damage = toPlaceStack.getItemDamage();
-					int count = toPlaceStack.stackSize;
-
-					EnumActionResult result = toPlaceStack.getItem().onItemUse(toPlaceStack, event.getEntityPlayer(), event.getWorld(), pos, EnumHand.MAIN_HAND, hitSide, (float) rayTrace.hitVec.xCoord, (float) rayTrace.hitVec.yCoord, (float) rayTrace.hitVec.zCoord);
-
-					if (result == EnumActionResult.SUCCESS) {
-						used = true;
-
-						if (event.getEntityPlayer().capabilities.isCreativeMode) {
-							toPlaceStack.setItemDamage(damage);
-							toPlaceStack.stackSize = count;
+						Block blockToPlace = ((ItemBlock) toPlaceStack.getItem()).block;
+						if (blockToPlace.getDefaultState().getMaterial().blocksMovement() && playerBounds.intersectsWith(blockBounds)) {
+							event.setCanceled(true);
+							return;
 						}
-						if (toPlaceStack.stackSize <= 0) {
-							event.getEntityPlayer().inventory.setInventorySlotContents(itemSlot, null);
+
+						int damage = toPlaceStack.getItemDamage();
+						int count = toPlaceStack.stackSize;
+
+						EnumActionResult result = toPlaceStack.getItem().onItemUse(toPlaceStack, event.getEntityPlayer(), event.getWorld(), pos, EnumHand.MAIN_HAND, hitSide, (float) rayTrace.hitVec.xCoord, (float) rayTrace.hitVec.yCoord, (float) rayTrace.hitVec.zCoord);
+
+						if (result == EnumActionResult.SUCCESS) {
+							used = true;
+
+							if (event.getEntityPlayer().capabilities.isCreativeMode) {
+								toPlaceStack.setItemDamage(damage);
+								toPlaceStack.stackSize = count;
+							}
+							if (toPlaceStack.stackSize <= 0) {
+								event.getEntityPlayer().inventory.setInventorySlotContents(itemSlot, null);
+							}
 						}
 					}
 				}
